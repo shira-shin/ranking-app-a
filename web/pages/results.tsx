@@ -1,5 +1,6 @@
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ExportButtons from '../components/ExportButtons';
+import SaveHistoryButton from '../components/SaveHistoryButton';
 import { useTranslations } from 'next-intl';
 
 export default function Results() {
@@ -20,6 +21,7 @@ export default function Results() {
         ))}
       </ul>
       <ExportButtons />
+      <SaveHistoryButton data={dummyResults} />
     </div>
   );
 }
