@@ -5,6 +5,7 @@ node_modules
 # Python
 __pycache__
 *.pyc
+.env
 
 # Misc
 .DS_Store
