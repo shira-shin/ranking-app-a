@@ -2,6 +2,10 @@
   "title": "ランキング結果",
   "exportPdf": "PDFをエクスポート",
   "exportCsv": "CSVをエクスポート",
-  "language": "言語"
-  ,"saveHistory": "履歴に保存"
+  "language": "言語",
+  "saveHistory": "履歴に保存",
+  "generate": "ランキング生成",
+  "addItem": "候補を追加",
+  "addCriterion": "評価軸を追加",
+  "weight": "重み"
 }

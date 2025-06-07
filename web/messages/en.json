@@ -2,6 +2,10 @@
   "title": "Ranking Results",
   "exportPdf": "Export PDF",
   "exportCsv": "Export CSV",
-  "language": "Language"
-  ,"saveHistory": "Save to history"
+  "language": "Language",
+  "saveHistory": "Save to history",
+  "generate": "Generate Ranking",
+  "addItem": "Add item",
+  "addCriterion": "Add criterion",
+  "weight": "Weight"
 }
