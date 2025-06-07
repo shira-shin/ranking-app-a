@@ -21,6 +21,12 @@ export default function SaveHistoryButton({ data }: { data: any }) {
   };
 
   return (
-    <button onClick={handleSave}>{t('saveHistory')}</button>
+    <button
+      className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700"
+      onClick={handleSave}
+    >
+      {t('saveHistory')}
+    </button>
   );
 }
+

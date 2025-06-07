@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
-import '../styles.css';
+import '../globals.css';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
