@@ -14,7 +14,9 @@ export default function Results() {
   useEffect(() => {
     if (router.isReady && typeof router.query.data === 'string') {
       try {
-        setResults(JSON.parse(router.query.data));
+        const parsed = JSON.parse(router.query.data);
+        console.log('results', parsed);
+        setResults(Array.isArray(parsed) ? parsed : parsed.results ?? []);
       } catch {
         setResults([]);
       }
@@ -26,9 +28,8 @@ export default function Results() {
       <LanguageSwitcher />
       <h1 className="text-3xl font-bold mb-4">{t('title')}</h1>
       <div className="space-y-4 bg-white p-4 rounded-lg shadow">
-        {results.map((item) => (
-          <RankCard key={item.rank} {...item} />
-        ))}
+        {Array.isArray(results) &&
+          results.map((item) => <RankCard key={item.rank} {...item} />)}
       </div>
       <div className="mt-6 flex gap-2">
         <ExportButtons />
