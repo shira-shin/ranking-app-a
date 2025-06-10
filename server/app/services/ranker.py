@@ -2,7 +2,7 @@ import json
 import os
 from typing import Any, Dict, List
 
-import openai
+from openai import OpenAI
 
 
 class RankerService:
@@ -12,7 +12,8 @@ class RankerService:
     temperature = 0
 
     def __init__(self) -> None:
-        openai.api_key = os.environ.get("OPENAI_API_KEY")
+        """Initialize OpenAI client."""
+        self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     def _call_openai(self, prompt: str) -> List[Dict[str, Any]]:
         """Call OpenAI API and return parsed JSON response.
@@ -31,12 +32,12 @@ class RankerService:
         ]
 
         for _ in range(2):
-            response = openai.ChatCompletion.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 temperature=self.temperature,
                 messages=messages,
             )
-            content = response.choices[0].message["content"]
+            content = response.choices[0].message.content
             try:
                 return json.loads(content)
             except json.JSONDecodeError:
