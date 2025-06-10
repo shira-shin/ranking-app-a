@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from .services.ranker import RankerService
 from typing import Any, List
 
@@ -15,12 +16,17 @@ app.add_middleware(
 ranker = RankerService()
 history_store: List[Any] = []
 
+
+class RankRequest(BaseModel):
+    prompt: str
+
 @app.post("/rank")
-async def rank(prompt: str):
-    return ranker.rank(prompt)
+async def rank(request: RankRequest):
+    """Generate a ranking based on the provided prompt."""
+    return ranker.rank(request.prompt)
 
 @app.post("/history")
-async def save_history(data: Any):
+async def save_history(data: Any = Body(...)):
     """Store ranking results in-memory."""
     history_store.append(data)
     return {"status": "ok"}
