@@ -1,5 +1,6 @@
 import { Plus, X } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   candidates: string[];
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export default function CandidateInputs({ candidates, setCandidates }: Props) {
+  const t = useTranslations();
+
   const update = (value: string, idx: number) => {
     const list = [...candidates];
     list[idx] = value;
@@ -21,8 +24,8 @@ export default function CandidateInputs({ candidates, setCandidates }: Props) {
       {candidates.map((c, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
-            className="flex-1 p-2 border rounded"
-            placeholder="Item"
+            className="flex-1 p-2 border rounded-md bg-gray-50"
+            placeholder={t('itemPlaceholder')}
             value={c}
             onChange={(e) => update(e.target.value, i)}
           />
@@ -37,9 +40,13 @@ export default function CandidateInputs({ candidates, setCandidates }: Props) {
           )}
         </div>
       ))}
-      <button type="button" onClick={add} className="flex items-center gap-1 text-sm text-blue-600">
+      <button
+        type="button"
+        onClick={add}
+        className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+      >
         <Plus size={16} />
-        Add
+        {t('addItem')}
       </button>
     </div>
   );

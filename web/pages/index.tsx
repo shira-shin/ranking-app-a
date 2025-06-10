@@ -12,11 +12,20 @@ export default function Home() {
   const [criteria, setCriteria] = useState<Criterion[]>([{ name: '', weight: 3 }]);
   const [error, setError] = useState('');
 
+  const insertSample = () => {
+    setCandidates(['ラーメン屋A', 'ラーメン屋B', 'ラーメン屋C']);
+    setCriteria([
+      { name: '味', weight: 5 },
+      { name: '値段', weight: 4 },
+      { name: 'アクセス', weight: 3 },
+    ]);
+  };
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   const handleSubmit = async () => {
     if (candidates.some((c) => !c.trim()) || criteria.some((c) => !c.name.trim())) {
-      setError('Please fill all fields');
+      setError(t('fillError'));
       return;
     }
     setError('');
@@ -32,7 +41,7 @@ export default function Home() {
       const data = await res.json();
       router.push({ pathname: '/results', query: { data: JSON.stringify(data) } });
     } catch (e) {
-      alert('Failed to fetch ranking');
+      alert(t('fetchError'));
     }
   };
 
@@ -40,18 +49,28 @@ export default function Home() {
     <div className="max-w-xl mx-auto mt-10 space-y-6">
       <LanguageSwitcher />
       <h1 className="text-2xl font-bold text-center">{t('generate')}</h1>
-      <section>
-        <h2 className="font-semibold mb-2">Candidates</h2>
+      <p className="text-center text-sm text-gray-600">{t('instruction')}</p>
+      <div className="text-right">
+        <button
+          type="button"
+          onClick={insertSample}
+          className="text-xs text-blue-600 hover:underline"
+        >
+          {t('sample')}
+        </button>
+      </div>
+      <section className="bg-white p-4 rounded-lg shadow space-y-2">
+        <h2 className="font-semibold mb-2">{t('candidates')}</h2>
         <CandidateInputs candidates={candidates} setCandidates={setCandidates} />
       </section>
-      <section>
-        <h2 className="font-semibold mb-2">Criteria</h2>
+      <section className="bg-white p-4 rounded-lg shadow space-y-2">
+        <h2 className="font-semibold mb-2">{t('criteria')}</h2>
         <CriteriaInputs criteria={criteria} setCriteria={setCriteria} />
       </section>
       {error && <p className="text-red-600 text-sm">{error}</p>}
       <button
         onClick={handleSubmit}
-        className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
       >
         {t('generate')}
       </button>

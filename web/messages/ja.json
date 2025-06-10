@@ -5,7 +5,17 @@
   "language": "言語",
   "saveHistory": "履歴に保存",
   "generate": "ランキング生成",
-  "addItem": "候補を追加",
-  "addCriterion": "評価軸を追加",
-  "weight": "重み"
+  "addItem": "＋追加",
+  "addCriterion": "＋追加",
+  "weight": "重み",
+  "candidates": "比較候補",
+  "criteria": "評価基準",
+  "fillError": "すべての項目を入力してください",
+  "fetchError": "ランキング取得に失敗しました",
+  "saved": "保存しました！",
+  "saveFailed": "保存に失敗しました",
+  "itemPlaceholder": "例: ラーメン屋A",
+  "criterionPlaceholder": "例: 味",
+  "instruction": "比較したい候補と評価基準を入力してください。",
+  "sample": "サンプルを入れる"
 }

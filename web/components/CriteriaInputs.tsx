@@ -1,5 +1,6 @@
 import { Plus, X } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
+import { useTranslations } from 'next-intl';
 
 export interface Criterion {
   name: string;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export default function CriteriaInputs({ criteria, setCriteria }: Props) {
+  const t = useTranslations();
+
   const update = (idx: number, field: keyof Criterion, value: string | number) => {
     const list = [...criteria];
     (list[idx] as any)[field] = field === 'weight' ? Number(value) : value;
@@ -25,13 +28,13 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
       {criteria.map((c, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
-            className="flex-1 p-2 border rounded"
-            placeholder="Criterion"
+            className="flex-1 p-2 border rounded-md bg-gray-50"
+            placeholder={t('criterionPlaceholder')}
             value={c.name}
             onChange={(e) => update(i, 'name', e.target.value)}
           />
           <select
-            className="p-2 border rounded"
+            className="p-2 border rounded-md bg-gray-50"
             value={c.weight}
             onChange={(e) => update(i, 'weight', e.target.value)}
           >
@@ -48,9 +51,13 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
           )}
         </div>
       ))}
-      <button type="button" onClick={add} className="flex items-center gap-1 text-sm text-blue-600">
+      <button
+        type="button"
+        onClick={add}
+        className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+      >
         <Plus size={16} />
-        Add
+        {t('addCriterion')}
       </button>
     </div>
   );

@@ -14,9 +14,9 @@ export default function SaveHistoryButton({ data }: { data: any }) {
         },
         body: JSON.stringify(data)
       });
-      alert('Saved!');
+      alert(t('saved'));
     } catch (err) {
-      alert('Failed to save');
+      alert(t('saveFailed'));
     }
   };
 
