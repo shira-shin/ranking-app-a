@@ -1,5 +1,4 @@
 import json
-import os
 from typing import Any, Dict, List
 
 from openai import OpenAI
@@ -12,8 +11,10 @@ class RankerService:
     temperature = 0
 
     def __init__(self) -> None:
-        """Initialize OpenAI client."""
-        self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        """Initialize OpenAI client using environment variables."""
+        # The OpenAI library automatically reads the API key from
+        # the `OPENAI_API_KEY` environment variable.
+        self.client = OpenAI()
 
     def _call_openai(self, prompt: str) -> List[Dict[str, Any]]:
         """Call OpenAI API and return parsed JSON response.
