@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply p-4 font-sans;
+    @apply p-4 font-sans bg-gray-50;
   }
 }
 

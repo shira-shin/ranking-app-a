@@ -22,10 +22,10 @@ export default function Results() {
   }, [router.isReady, router.query.data]);
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto space-y-4">
       <LanguageSwitcher />
       <h1 className="text-3xl font-bold mb-4">{t('title')}</h1>
-      <div className="space-y-4">
+      <div className="space-y-4 bg-white p-4 rounded-lg shadow">
         {results.map((item) => (
           <RankCard key={item.rank} {...item} />
         ))}

@@ -7,5 +7,15 @@
   "generate": "Generate Ranking",
   "addItem": "Add item",
   "addCriterion": "Add criterion",
-  "weight": "Weight"
+  "weight": "Weight",
+  "candidates": "Candidates",
+  "criteria": "Criteria",
+  "fillError": "Please fill all fields",
+  "fetchError": "Failed to fetch ranking",
+  "saved": "Saved!",
+  "saveFailed": "Failed to save",
+  "itemPlaceholder": "e.g. Ramen Shop A",
+  "criterionPlaceholder": "e.g. Taste",
+  "instruction": "Enter the items you want to compare and the criteria for scoring them.",
+  "sample": "Insert sample"
 }
