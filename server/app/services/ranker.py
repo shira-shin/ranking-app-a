@@ -11,9 +11,12 @@ class RankerService:
     temperature = 0
 
     def __init__(self) -> None:
-        """Initialize OpenAI client using environment variables."""
-        # The OpenAI library automatically reads the API key from
-        # the `OPENAI_API_KEY` environment variable.
+        """Initialize the OpenAI client without extra parameters."""
+        # openai v1.x automatically reads settings such as
+        # `OPENAI_API_KEY` from environment variables. Passing
+        # unsupported arguments like ``proxies`` or ``api_key`` will
+        # raise ``TypeError`` in recent versions, so we simply
+        # instantiate ``OpenAI()``.
         self.client = OpenAI()
 
     def _call_openai(self, prompt: str) -> List[Dict[str, Any]]:
