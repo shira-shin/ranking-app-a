@@ -17,5 +17,7 @@
   "itemPlaceholder": "例: ラーメン屋A",
   "criterionPlaceholder": "例: 味",
   "instruction": "比較したい候補と評価基準を入力してください。",
-  "sample": "サンプルを入れる"
+  "sample": "サンプルを入れる",
+  "generating": "生成中...",
+  "noResults": "結果がありません"
 }

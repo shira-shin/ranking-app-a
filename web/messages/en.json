@@ -17,5 +17,7 @@
   "itemPlaceholder": "e.g. Ramen Shop A",
   "criterionPlaceholder": "e.g. Taste",
   "instruction": "Enter the items you want to compare and the criteria for scoring them.",
-  "sample": "Insert sample"
+  "sample": "Insert sample",
+  "generating": "Generating...",
+  "noResults": "No results found"
 }
