@@ -11,6 +11,7 @@ export default function Home() {
   const [candidates, setCandidates] = useState<string[]>(['', '']);
   const [criteria, setCriteria] = useState<Criterion[]>([{ name: '', weight: 3 }]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const insertSample = () => {
     setCandidates(['ラーメン屋A', 'ラーメン屋B', 'ラーメン屋C']);
@@ -29,6 +30,7 @@ export default function Home() {
       return;
     }
     setError('');
+    setLoading(true);
     const prompt = `Rank the following items: ${candidates.join(', ')}. Criteria with weights: ${criteria
       .map((c) => `${c.name} (${c.weight})`)
       .join(', ')}.`;
@@ -39,9 +41,12 @@ export default function Home() {
         body: JSON.stringify({ prompt })
       });
       const data = await res.json();
+      console.log('ranking response', data);
       router.push({ pathname: '/results', query: { data: JSON.stringify(data) } });
     } catch (e) {
       alert(t('fetchError'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,9 +75,10 @@ export default function Home() {
       {error && <p className="text-red-600 text-sm">{error}</p>}
       <button
         onClick={handleSubmit}
-        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+        disabled={loading}
+        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition disabled:opacity-50"
       >
-        {t('generate')}
+        {loading ? t('generating') : t('generate')}
       </button>
     </div>
   );
