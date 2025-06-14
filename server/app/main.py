@@ -22,8 +22,13 @@ class RankRequest(BaseModel):
 
 @app.post("/rank")
 async def rank(request: RankRequest):
-    """Generate a ranking based on the provided prompt."""
-    return ranker.rank(request.prompt)
+    """Generate a ranking based on the provided prompt.
+
+    The frontend expects an object with a ``results`` field, so wrap the
+    generated list in that structure.
+    """
+    ranking = ranker.rank(request.prompt)
+    return {"results": ranking}
 
 @app.post("/history")
 async def save_history(data: Any = Body(...)):

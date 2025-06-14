@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import re
 from typing import Any, Dict, List
 
@@ -69,5 +70,31 @@ class RankerService:
         raise ValueError("Failed to parse JSON from OpenAI response")
 
     def rank(self, prompt: str) -> List[Dict[str, Any]]:
-        """Public method to generate ranking from a prompt."""
+        """Public method to generate ranking from a prompt.
+
+        If the environment variable ``USE_DUMMY_DATA`` is set, return a static
+        ranking response.  This is helpful for local development when no
+        OpenAI API key is available.
+        """
+        if os.getenv("USE_DUMMY_DATA"):
+            return [
+                {
+                    "name": "Sample A",
+                    "score": 10,
+                    "rank": 1,
+                    "reasons": {"taste": 5, "price": 3},
+                },
+                {
+                    "name": "Sample B",
+                    "score": 8,
+                    "rank": 2,
+                    "reasons": {"taste": 4, "price": 2},
+                },
+                {
+                    "name": "Sample C",
+                    "score": 6,
+                    "rank": 3,
+                    "reasons": {"taste": 3, "price": 1},
+                },
+            ]
         return self._call_openai(prompt)

@@ -21,3 +21,10 @@ pip install -r requirements.txt
 # argument 'proxies'`.
 uvicorn app.main:app --reload
 ```
+
+If you don't have an OpenAI API key handy, start the server with
+``USE_DUMMY_DATA=1`` to use built-in sample rankings:
+
+```
+USE_DUMMY_DATA=1 uvicorn app.main:app --reload
+```
