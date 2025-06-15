@@ -48,6 +48,7 @@ class RankerService:
             {"role": "user", "content": prompt},
         ]
 
+        logger.info("Calling OpenAI with prompt: %s", prompt)
         for _ in range(2):
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -57,13 +58,18 @@ class RankerService:
                 response_format={"type": "json_object"},
             )
             content = response.choices[0].message.content
+            logger.info("Raw OpenAI response: %s", content)
             try:
-                return json.loads(content)
+                parsed = json.loads(content)
+                logger.info("Parsed response: %s", parsed)
+                return parsed
             except json.JSONDecodeError:
                 logger.error("OpenAI response not valid JSON: %s", content)
                 cleaned = self._cleanup_json(content)
                 try:
-                    return json.loads(cleaned)
+                    parsed = json.loads(cleaned)
+                    logger.info("Parsed cleaned response: %s", parsed)
+                    return parsed
                 except json.JSONDecodeError:
                     # Retry once more with cleaned content
                     continue
@@ -77,7 +83,7 @@ class RankerService:
         OpenAI API key is available.
         """
         if os.getenv("USE_DUMMY_DATA"):
-            return [
+            data = [
                 {
                     "name": "Sample A",
                     "score": 10,
@@ -97,4 +103,8 @@ class RankerService:
                     "reasons": {"taste": 3, "price": 1},
                 },
             ]
-        return self._call_openai(prompt)
+            logger.info("Returning dummy data: %s", data)
+            return data
+        data = self._call_openai(prompt)
+        logger.info("Returning OpenAI data: %s", data)
+        return data

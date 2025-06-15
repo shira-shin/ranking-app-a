@@ -1,11 +1,7 @@
 import { FC } from 'react';
+import { RankingItem } from '../types';
 
-interface Props {
-  name: string;
-  score: number;
-  rank: number;
-  reasons: Record<string, number>;
-}
+type Props = RankingItem;
 
 const medalClasses = ['bg-yellow-400', 'bg-slate-300', 'bg-amber-600'];
 

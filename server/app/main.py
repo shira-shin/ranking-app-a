@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from .services.ranker import RankerService
 from typing import Any, List
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -27,7 +31,9 @@ async def rank(request: RankRequest):
     The frontend expects an object with a ``results`` field, so wrap the
     generated list in that structure.
     """
+    logger.info("Received prompt: %s", request.prompt)
     ranking = ranker.rank(request.prompt)
+    logger.info("Ranking generated: %s", ranking)
     return {"results": ranking}
 
 @app.post("/history")
