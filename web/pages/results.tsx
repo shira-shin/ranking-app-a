@@ -5,11 +5,13 @@ import RankCard from '../components/RankCard';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Spinner from '../components/Spinner';
+import { RankingItem } from '../types';
 
 export default function Results() {
   const t = useTranslations();
   const router = useRouter();
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<RankingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,16 +19,17 @@ export default function Results() {
       if (typeof router.query.data === 'string') {
         try {
           const parsed = JSON.parse(router.query.data);
+          console.log('router query parsed', parsed);
           const arr = Array.isArray(parsed)
             ? parsed
             : Array.isArray(parsed.results)
             ? parsed.results
             : [];
+          console.log('arr', arr);
           setResults(arr);
-          console.log(arr);
-        } catch {
+        } catch (err) {
+          console.error('parse error', err);
           setResults([]);
-          console.log([]);
         }
       }
       setLoading(false);
@@ -45,7 +48,7 @@ export default function Results() {
       <h1 className="text-3xl font-bold mb-4">{t('title')}</h1>
       <div className="space-y-4 bg-white p-4 rounded-lg shadow min-h-[100px] flex items-center justify-center">
         {loading ? (
-          <p>{t('generating')}</p>
+          <div className="flex items-center gap-2"><Spinner />{t('generating')}</div>
         ) : !Array.isArray(results) || results.length === 0 ? (
           <p>{t('noResults')}</p>
         ) : (

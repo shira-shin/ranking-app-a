@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import CandidateInputs from '../components/CandidateInputs';
 import CriteriaInputs, { Criterion } from '../components/CriteriaInputs';
+import Spinner from '../components/Spinner';
 
 export default function Home() {
   const t = useTranslations();
@@ -34,17 +35,27 @@ export default function Home() {
     const prompt = `Rank the following items: ${candidates.join(', ')}. Criteria with weights: ${criteria
       .map((c) => `${c.name} (${c.weight})`)
       .join(', ')}.`;
+    console.log('prompt', prompt);
     try {
       const res = await fetch(`${apiUrl}/rank`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt })
       });
+      console.log('rank api status', res.status);
+      if (!res.ok) {
+        throw new Error('status ' + res.status);
+      }
       const data = await res.json();
       console.log('ranking response', data);
+      if (!data || !Array.isArray(data.results) || data.results.length === 0) {
+        setError(t('noResults'));
+        return;
+      }
       router.push({ pathname: '/results', query: { data: JSON.stringify(data) } });
     } catch (e) {
-      alert(t('fetchError'));
+      console.error(e);
+      setError(t('fetchError'));
     } finally {
       setLoading(false);
     }
@@ -76,8 +87,9 @@ export default function Home() {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition disabled:opacity-50"
+        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
       >
+        {loading && <Spinner />}
         {loading ? t('generating') : t('generate')}
       </button>
     </div>
