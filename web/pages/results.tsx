@@ -17,15 +17,27 @@ export default function Results() {
       if (typeof router.query.data === 'string') {
         try {
           const parsed = JSON.parse(router.query.data);
-          console.log('results', parsed);
-          setResults(Array.isArray(parsed) ? parsed : parsed.results ?? []);
+          const arr = Array.isArray(parsed)
+            ? parsed
+            : Array.isArray(parsed.results)
+            ? parsed.results
+            : [];
+          setResults(arr);
+          console.log(arr);
         } catch {
           setResults([]);
+          console.log([]);
         }
       }
       setLoading(false);
     }
   }, [router.isReady, router.query.data]);
+
+  useEffect(() => {
+    if (!loading) {
+      console.log(results);
+    }
+  }, [results, loading]);
 
   return (
     <div className="max-w-2xl mx-auto space-y-4">
@@ -34,7 +46,7 @@ export default function Results() {
       <div className="space-y-4 bg-white p-4 rounded-lg shadow min-h-[100px] flex items-center justify-center">
         {loading ? (
           <p>{t('generating')}</p>
-        ) : results.length === 0 ? (
+        ) : !Array.isArray(results) || results.length === 0 ? (
           <p>{t('noResults')}</p>
         ) : (
           results.map((item) => <RankCard key={item.rank} {...item} />)
