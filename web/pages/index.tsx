@@ -66,6 +66,18 @@ export default function Home() {
         setError(t('noResults'));
         return;
       }
+      if (
+        !Array.isArray(resultArray) ||
+        resultArray.some(
+          (r) =>
+            !r || typeof r.name !== 'string' ||
+            r.score === undefined ||
+            r.rank === undefined
+        )
+      ) {
+        setError(t('formatError'));
+        return;
+      }
       router.push({
         pathname: '/results',
         query: { data: JSON.stringify(resultArray) }

@@ -43,13 +43,19 @@ class RankerService:
                 # markdown or explanatory text is allowed.
                 "content": (
                     "You are a JSON API. Always respond with a pure JSON array where each "
-                    "element has the fields name, score, rank and reasons mapping criterion "
-                    "to reason. Do not include code fences or additional text."
+                    "element has the fields name, score, rank and reasons mapping each "
+                    "criterion to a Japanese sentence explaining the evaluation. "
+                    "Do not include code fences or additional text."
                 ),
             },
             {
                 "role": "user",
-                "content": f"{prompt}\n\nすべて日本語で回答してください。",
+                "content": (
+                    f"{prompt}\n\n"
+                    "各候補について各評価基準ごとに1文以上で理由を日本語で説明し、"
+                    "次の形式のJSON配列のみを返してください。"
+                    "[{'name':'','score':0,'rank':0,'reasons':{'基準':'理由'}}]"
+                ),
             },
         ]
 
@@ -97,19 +103,19 @@ class RankerService:
                     "name": "Sample A",
                     "score": 10,
                     "rank": 1,
-                    "reasons": {"taste": 5, "price": 3},
+                    "reasons": {"味": "とても美味しい", "値段": "手頃な価格"},
                 },
                 {
                     "name": "Sample B",
                     "score": 8,
                     "rank": 2,
-                    "reasons": {"taste": 4, "price": 2},
+                    "reasons": {"味": "そこそこ美味しい", "値段": "少し高め"},
                 },
                 {
                     "name": "Sample C",
                     "score": 6,
                     "rank": 3,
-                    "reasons": {"taste": 3, "price": 1},
+                    "reasons": {"味": "普通", "値段": "高い"},
                 },
             ]
             logger.info("Returning dummy data: %s", data)
