@@ -13,6 +13,7 @@ export default function Results() {
   const router = useRouter();
   const [results, setResults] = useState<RankingItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (router.isReady) {
@@ -35,9 +36,13 @@ export default function Results() {
             arr = [parsed.results ?? parsed.rankings ?? parsed];
           }
           console.log('arr', arr);
-          setResults(arr as RankingItem[]);
+          const sorted = (arr as RankingItem[]).sort((a, b) =>
+            (a.rank ?? 0) - (b.rank ?? 0)
+          );
+          setResults(sorted);
         } catch (err) {
           console.error('parse error', err);
+          setError(t('formatError'));
           setResults([]);
         }
       }
@@ -67,17 +72,23 @@ export default function Results() {
           {t('backHome')}
         </button>
       </div>
-      <div className="space-y-4 bg-white p-4 rounded-lg shadow min-h-[100px] flex flex-col items-stretch justify-start overflow-y-auto max-h-[70vh]">
+      <div className="bg-white p-4 rounded-lg shadow min-h-[100px] max-h-[70vh] overflow-y-auto">
         {loading ? (
-          <div className="flex items-center gap-2"><Spinner />{t('generating')}</div>
-        ) : !Array.isArray(results) || results.length === 0 ? (
+          <div className="flex items-center gap-2 justify-center"><Spinner />{t('generating')}</div>
+        ) : error ? (
+          <p className="text-red-600 text-center">{error}</p>
+        ) : results.length === 0 ? (
           <p>{t('noResults')}</p>
         ) : (
-          results.map((item) => <RankCard key={item.rank} {...item} />)
+          <div className="grid gap-4 sm:grid-cols-2">
+            {results.map((item) => (
+              <RankCard key={item.rank} {...item} />
+            ))}
+          </div>
         )}
       </div>
       <div className="mt-6 flex gap-2">
-        <ExportButtons />
+        <ExportButtons data={results} />
         <SaveHistoryButton data={results} />
       </div>
     </div>

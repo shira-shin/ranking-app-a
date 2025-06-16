@@ -21,5 +21,8 @@
   "generating": "生成中...",
   "noResults": "結果がありません",
   "backHome": "ホームに戻る",
-  "formatError": "レスポンス形式が正しくありません"
+  "formatError": "レスポンス形式が正しくありません",
+  "rank": "順位",
+  "score": "スコア",
+  "comingSoon": "近日公開"
 }

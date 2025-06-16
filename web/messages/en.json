@@ -21,5 +21,8 @@
   "generating": "Generating...",
   "noResults": "No results found",
   "backHome": "Back to Home",
-  "formatError": "Invalid response format"
+  "formatError": "Invalid response format",
+  "rank": "Rank",
+  "score": "Score",
+  "comingSoon": "Coming soon"
 }
