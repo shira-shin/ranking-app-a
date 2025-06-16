@@ -67,7 +67,7 @@ export default function Results() {
           {t('backHome')}
         </button>
       </div>
-      <div className="space-y-4 bg-white p-4 rounded-lg shadow min-h-[100px] flex items-center justify-center">
+      <div className="space-y-4 bg-white p-4 rounded-lg shadow min-h-[100px] flex flex-col items-stretch justify-start overflow-y-auto max-h-[70vh]">
         {loading ? (
           <div className="flex items-center gap-2"><Spinner />{t('generating')}</div>
         ) : !Array.isArray(results) || results.length === 0 ? (

@@ -20,5 +20,6 @@
   "sample": "Insert sample",
   "generating": "Generating...",
   "noResults": "No results found",
-  "backHome": "Back to Home"
+  "backHome": "Back to Home",
+  "formatError": "Invalid response format"
 }
