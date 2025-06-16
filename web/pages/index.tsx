@@ -48,11 +48,20 @@ export default function Home() {
       }
       const data = await res.json();
       console.log('ranking response', data);
-      const resultArray = Array.isArray(data)
-        ? data
-        : Array.isArray(data.results)
-        ? data.results
-        : [data.results ?? data];
+      let resultArray: any = [];
+      if (Array.isArray(data)) {
+        if (data.length === 1 && data[0]?.rankings) {
+          resultArray = data[0].rankings;
+        } else {
+          resultArray = data;
+        }
+      } else if (Array.isArray(data.results)) {
+        resultArray = data.results;
+      } else if (Array.isArray(data.rankings)) {
+        resultArray = data.rankings;
+      } else {
+        resultArray = [data.results ?? data.rankings ?? data];
+      }
       if (!resultArray || resultArray.length === 0) {
         setError(t('noResults'));
         return;

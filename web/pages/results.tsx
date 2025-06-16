@@ -20,13 +20,22 @@ export default function Results() {
         try {
           const parsed = JSON.parse(router.query.data);
           console.log('router query parsed', parsed);
-          const arr = Array.isArray(parsed)
-            ? parsed
-            : Array.isArray(parsed.results)
-            ? parsed.results
-            : [parsed.results ?? parsed];
+          let arr: any = [];
+          if (Array.isArray(parsed)) {
+            if (parsed.length === 1 && parsed[0]?.rankings) {
+              arr = parsed[0].rankings;
+            } else {
+              arr = parsed;
+            }
+          } else if (Array.isArray(parsed.results)) {
+            arr = parsed.results;
+          } else if (Array.isArray(parsed.rankings)) {
+            arr = parsed.rankings;
+          } else {
+            arr = [parsed.results ?? parsed.rankings ?? parsed];
+          }
           console.log('arr', arr);
-          setResults(arr);
+          setResults(arr as RankingItem[]);
         } catch (err) {
           console.error('parse error', err);
           setResults([]);
