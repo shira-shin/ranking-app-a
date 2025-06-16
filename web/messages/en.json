@@ -19,5 +19,6 @@
   "instruction": "Enter the items you want to compare and the criteria for scoring them.",
   "sample": "Insert sample",
   "generating": "Generating...",
-  "noResults": "No results found"
+  "noResults": "No results found",
+  "backHome": "Back to Home"
 }

@@ -47,7 +47,10 @@ class RankerService:
                     "to reason. Do not include code fences or additional text."
                 ),
             },
-            {"role": "user", "content": prompt},
+            {
+                "role": "user",
+                "content": f"{prompt}\n\nすべて日本語で回答してください。",
+            },
         ]
 
         logger.info("Calling OpenAI with prompt: %s", prompt)
