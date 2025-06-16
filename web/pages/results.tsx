@@ -24,7 +24,7 @@ export default function Results() {
             ? parsed
             : Array.isArray(parsed.results)
             ? parsed.results
-            : [];
+            : [parsed.results ?? parsed];
           console.log('arr', arr);
           setResults(arr);
         } catch (err) {

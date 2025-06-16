@@ -38,11 +38,13 @@ class RankerService:
         messages = [
             {
                 "role": "system",
-                # Instruct the model to return ONLY a JSON array without markdown or explanations.
+                # Ask the model to respond ONLY with a JSON array. If only a single
+                # result exists, it should still be wrapped in an array. No
+                # markdown or explanatory text is allowed.
                 "content": (
-                    "You are a JSON API. Respond with a pure JSON array where each element "
-                    "has the fields name, score, rank and reasons mapping criterion to reason. "
-                    "Do not include code fences or additional text."
+                    "You are a JSON API. Always respond with a pure JSON array where each "
+                    "element has the fields name, score, rank and reasons mapping criterion "
+                    "to reason. Do not include code fences or additional text."
                 ),
             },
             {"role": "user", "content": prompt},
@@ -62,6 +64,8 @@ class RankerService:
             try:
                 parsed = json.loads(content)
                 logger.info("Parsed response: %s", parsed)
+                if isinstance(parsed, dict):
+                    parsed = [parsed]
                 return parsed
             except json.JSONDecodeError:
                 logger.error("OpenAI response not valid JSON: %s", content)
@@ -69,6 +73,8 @@ class RankerService:
                 try:
                     parsed = json.loads(cleaned)
                     logger.info("Parsed cleaned response: %s", parsed)
+                    if isinstance(parsed, dict):
+                        parsed = [parsed]
                     return parsed
                 except json.JSONDecodeError:
                     # Retry once more with cleaned content
@@ -106,5 +112,7 @@ class RankerService:
             logger.info("Returning dummy data: %s", data)
             return data
         data = self._call_openai(prompt)
+        if isinstance(data, dict):
+            data = [data]
         logger.info("Returning OpenAI data: %s", data)
         return data
