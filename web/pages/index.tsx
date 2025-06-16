@@ -48,11 +48,19 @@ export default function Home() {
       }
       const data = await res.json();
       console.log('ranking response', data);
-      if (!data || !Array.isArray(data.results) || data.results.length === 0) {
+      const resultArray = Array.isArray(data)
+        ? data
+        : Array.isArray(data.results)
+        ? data.results
+        : [data.results ?? data];
+      if (!resultArray || resultArray.length === 0) {
         setError(t('noResults'));
         return;
       }
-      router.push({ pathname: '/results', query: { data: JSON.stringify(data) } });
+      router.push({
+        pathname: '/results',
+        query: { data: JSON.stringify(resultArray) }
+      });
     } catch (e) {
       console.error(e);
       setError(t('fetchError'));
