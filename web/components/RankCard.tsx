@@ -21,7 +21,7 @@ const RankCard: FC<Props> = ({ name, score, rank, reasons }) => {
       <h2 className="text-xl font-bold mb-1">{name}</h2>
       <p className="text-xl font-extrabold mb-2">{score} pt</p>
       <ul className="flex flex-wrap gap-2">
-        {Object.entries(reasons).map(([k, v]) => (
+        {Object.entries(reasons ?? {}).map(([k, v]) => (
           <li
             key={k}
             className="text-sm bg-gray-100 rounded px-2 py-0.5"
