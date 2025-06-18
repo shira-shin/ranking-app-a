@@ -34,8 +34,9 @@ export default function ExportButtons({ data }: Props) {
   return (
     <div className="buttons">
       <button
-        className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="px-3 py-1 bg-blue-400 text-white rounded cursor-not-allowed opacity-60"
         onClick={exportPdf}
+        disabled
       >
         {t('exportPdf')}
       </button>
