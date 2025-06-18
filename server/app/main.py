@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from .services.ranker import RankerService
@@ -23,6 +23,7 @@ history_store: List[Any] = []
 
 class RankRequest(BaseModel):
     prompt: str
+    count: int | None = None
 
 @app.post("/rank")
 async def rank(request: RankRequest):
@@ -32,8 +33,12 @@ async def rank(request: RankRequest):
     generated list in that structure.
     """
     logger.info("Received prompt: %s", request.prompt)
-    ranking = ranker.rank(request.prompt)
-    logger.info("Ranking generated: %s", ranking)
+    try:
+        ranking = ranker.rank(request.prompt, request.count)
+        logger.info("Ranking generated: %s", ranking)
+    except Exception as exc:
+        logger.error("Ranking error: %s", exc)
+        raise HTTPException(status_code=500, detail="Failed to generate ranking")
     # Older versions of the RankerService or the OpenAI prompt may return a
     # structure like ``[{"rankings": [...]}]``.  To keep the API stable for the
     # frontend, unwrap such responses here so that we always return the flat

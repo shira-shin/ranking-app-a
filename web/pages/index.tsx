@@ -32,15 +32,20 @@ export default function Home() {
     }
     setError('');
     setLoading(true);
-    const prompt = `Rank the following items: ${candidates.join(', ')}. Criteria with weights: ${criteria
-      .map((c) => `${c.name} (${c.weight})`)
-      .join(', ')}.`;
+    const prompt = [
+      `Rank the following items: ${candidates.join(', ')}.`,
+      `Criteria with weights: ${criteria
+        .map((c) => `${c.name} (${c.weight})`)
+        .join(', ')}.`,
+      "Return all candidates as JSON {\"rankings\": [{\"name\":\"\",\"score\":0,\"rank\":0,\"reasons\":{}}]}.",
+      "Reasons must be in Japanese."
+    ].join(' ');
     console.log('prompt', prompt);
     try {
       const res = await fetch(`${apiUrl}/rank`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt, count: candidates.length })
       });
       console.log('rank api status', res.status);
       if (!res.ok) {
