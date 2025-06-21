@@ -2,6 +2,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import ExportButtons from '../components/ExportButtons';
 import SaveHistoryButton from '../components/SaveHistoryButton';
 import RankCard from '../components/RankCard';
+import ScoreChart from '../components/ScoreChart';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ export default function Results() {
   const [results, setResults] = useState<RankingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [summary, setSummary] = useState('');
 
   useEffect(() => {
     if (router.isReady) {
@@ -40,6 +42,9 @@ export default function Results() {
             (a.rank ?? 0) - (b.rank ?? 0)
           );
           setResults(sorted);
+          if (sorted.length > 0) {
+            setSummary(t('summary', { item: sorted[0].name }));
+          }
         } catch (err) {
           console.error('parse error', err);
           setError(t('formatError'));
@@ -53,8 +58,11 @@ export default function Results() {
   useEffect(() => {
     if (!loading) {
       console.log(results);
+      if (results.length > 0) {
+        setSummary(t('summary', { item: results[0].name }));
+      }
     }
-  }, [results, loading]);
+  }, [results, loading, t]);
 
   const goHome = () => {
     router.push('/');
@@ -72,6 +80,9 @@ export default function Results() {
           {t('backHome')}
         </button>
       </div>
+      {summary && (
+        <p className="text-center font-semibold text-lg">{summary}</p>
+      )}
       <div className="bg-white p-4 rounded-lg shadow min-h-[100px] max-h-[70vh] overflow-y-auto">
         {loading ? (
           <div className="flex items-center gap-2 justify-center"><Spinner />{t('generating')}</div>
@@ -80,16 +91,28 @@ export default function Results() {
         ) : results.length === 0 ? (
           <p>{t('noResults')}</p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {results.map((item) => (
-              <RankCard key={item.rank} {...item} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {results.map((item) => (
+                <RankCard key={item.rank} {...item} />
+              ))}
+            </div>
+            <div className="mt-6">
+              <h2 className="font-semibold mb-2">{t('scoreChart')}</h2>
+              <ScoreChart results={results} />
+            </div>
+          </>
         )}
       </div>
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex gap-2 flex-wrap">
         <ExportButtons data={results} />
         <SaveHistoryButton data={results} />
+        <button
+          onClick={goHome}
+          className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
+        >
+          {t('reRank')}
+        </button>
       </div>
     </div>
   );
