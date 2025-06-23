@@ -83,10 +83,10 @@ export default function Home() {
         setError(t('formatError'));
         return;
       }
-      router.push({
-        pathname: '/results',
-        query: { data: JSON.stringify(resultArray) }
-      });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('rankingData', JSON.stringify(resultArray));
+      }
+      router.push('/results');
     } catch (e) {
       console.error(e);
       setError(t('fetchError'));
