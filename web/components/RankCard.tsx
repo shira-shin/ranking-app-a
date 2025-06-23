@@ -18,21 +18,21 @@ const RankCard: FC<Props> = ({ name, score, rank, reasons }) => {
       style={{ borderColor: borderColor }}
     >
       <div
-        className={`absolute -top-2 -left-2 px-2 py-1 text-sm text-white rounded ${ribbon}`}
+        className={`absolute -top-2 -left-2 px-2 py-2 text-sm text-white rounded ${ribbon}`}
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {rank <= 3 && <span>{medalEmoji[rank - 1]}</span>}
           {rank <= 3 && <Award className="w-3 h-3" />}
           {t('rank')} {rank}
         </div>
       </div>
-      <h2 className="text-xl font-bold mb-1">{name || 'N/A'}</h2>
+      <h2 className="text-xl font-bold mb-2">{name || 'N/A'}</h2>
       <p className="text-xl font-extrabold mb-2">{t('score')}: {score ?? '-'}</p>
       {reasons && Object.keys(reasons).length > 0 && (
-        <ul className="list-disc list-inside space-y-1 mt-2 text-sm">
+        <ul className="list-disc list-inside space-y-2 mt-2 text-sm">
           {Object.entries(reasons).map(([k, v]) => (
-            <li key={k} className="bg-gray-50 rounded px-2 py-1 shadow">
-              <span className="font-semibold mr-1">{k}:</span>
+            <li key={k} className="bg-gray-50 rounded px-2 py-2 shadow">
+              <span className="font-semibold mr-2">{k}:</span>
               {v}
             </li>
           ))}

@@ -96,10 +96,11 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 space-y-6">
-      <LanguageSwitcher />
-      <h1 className="text-2xl font-bold text-center">{t('generate')}</h1>
-      <p className="text-center text-sm text-gray-600">{t('instruction')}</p>
+    <div className="max-w-[1280px] mx-auto px-4">
+      <div className="max-w-xl mx-auto mt-10 space-y-6">
+        <LanguageSwitcher />
+        <h1 className="text-3xl font-bold text-center">{t('generate')}</h1>
+        <p className="text-center text-sm text-gray-600">{t('instruction')}</p>
       <div className="text-right">
         <button
           type="button"
@@ -110,11 +111,11 @@ export default function Home() {
         </button>
       </div>
       <section className="bg-white p-4 rounded-lg shadow space-y-2">
-        <h2 className="font-semibold mb-2">{t('candidates')}</h2>
+        <h2 className="text-xl font-semibold mb-2">{t('candidates')}</h2>
         <CandidateInputs candidates={candidates} setCandidates={setCandidates} />
       </section>
       <section className="bg-white p-4 rounded-lg shadow space-y-2">
-        <h2 className="font-semibold mb-2">{t('criteria')}</h2>
+        <h2 className="text-xl font-semibold mb-2">{t('criteria')}</h2>
         <CriteriaInputs criteria={criteria} setCriteria={setCriteria} />
       </section>
       {error && <p className="text-red-600 text-sm">{error}</p>}
@@ -126,6 +127,7 @@ export default function Home() {
         {loading && <Spinner />}
         {loading ? t('generating') : t('generate')}
       </button>
+      </div>
     </div>
   );
 }
