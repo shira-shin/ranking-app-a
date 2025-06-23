@@ -21,11 +21,11 @@ export default function Results() {
   const [view, setView] = useState<'card' | 'table' | 'analysis'>('card');
 
   useEffect(() => {
-    if (router.isReady) {
-      if (typeof router.query.data === 'string') {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('rankingData');
+      if (stored) {
         try {
-          const parsed = JSON.parse(router.query.data);
-          console.log('router query parsed', parsed);
+          const parsed = JSON.parse(stored);
           let arr: any = [];
           if (Array.isArray(parsed)) {
             if (parsed.length === 1 && parsed[0]?.rankings) {
@@ -40,7 +40,6 @@ export default function Results() {
           } else {
             arr = [parsed.results ?? parsed.rankings ?? parsed];
           }
-          console.log('arr', arr);
           const sorted = (arr as RankingItem[]).sort((a, b) =>
             (a.rank ?? 0) - (b.rank ?? 0)
           );
@@ -53,10 +52,13 @@ export default function Results() {
           setError(t('formatError'));
           setResults([]);
         }
+      } else {
+        setError(t('noResults'));
       }
-      setLoading(false);
+      localStorage.removeItem('rankingData');
     }
-  }, [router.isReady, router.query.data]);
+    setLoading(false);
+  }, [t]);
 
   useEffect(() => {
     if (!loading) {
