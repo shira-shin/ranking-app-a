@@ -32,3 +32,14 @@ If you don't have an OpenAI API key handy, start the server with
 ```
 USE_DUMMY_DATA=1 uvicorn app.main:app --reload
 ```
+
+### History API
+
+The server persists ranking history to `server/app/history.json`.
+You can manage this data with the following endpoints:
+
+```
+POST   /history        # add a new entry, returns the stored object
+GET    /history        # list all history entries
+DELETE /history/{id}   # remove an entry by its ID
+```

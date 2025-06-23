@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from .services.ranker import RankerService
 from typing import Any, List
+import json
+from pathlib import Path
+from uuid import uuid4
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -18,7 +21,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 ranker = RankerService()
-history_store: List[Any] = []
+
+# File-based history storage
+HISTORY_FILE = Path(__file__).resolve().parent / "history.json"
+
+
+def _read_history() -> List[Any]:
+    if HISTORY_FILE.exists():
+        try:
+            with HISTORY_FILE.open("r", encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            logger.error("Invalid history file. Resetting it.")
+            return []
+    return []
+
+
+def _write_history(items: List[Any]) -> None:
+    with HISTORY_FILE.open("w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False, indent=2)
 
 
 class RankRequest(BaseModel):
@@ -56,11 +77,25 @@ async def rank(request: RankRequest):
 
 @app.post("/history")
 async def save_history(data: Any = Body(...)):
-    """Store ranking results in-memory."""
-    history_store.append(data)
-    return {"status": "ok"}
+    """Store ranking results on disk."""
+    items = _read_history()
+    entry = {"id": str(uuid4()), "data": data}
+    items.append(entry)
+    _write_history(items)
+    return entry
 
 @app.get("/history")
 async def history():
     """Retrieve saved history."""
-    return history_store
+    return _read_history()
+
+
+@app.delete("/history/{item_id}")
+async def delete_history(item_id: str):
+    """Delete a history entry by its ID."""
+    items = _read_history()
+    new_items = [item for item in items if item.get("id") != item_id]
+    if len(new_items) == len(items):
+        raise HTTPException(status_code=404, detail="Item not found")
+    _write_history(new_items)
+    return {"status": "deleted"}
