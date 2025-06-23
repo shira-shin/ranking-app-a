@@ -74,8 +74,9 @@ export default function Results() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-4">
-      <LanguageSwitcher />
+    <div className="max-w-[1280px] mx-auto px-4">
+      <div className="max-w-2xl mx-auto space-y-4">
+        <LanguageSwitcher />
       <h1 className="text-3xl font-bold text-center">{t('title')}</h1>
       <div className="text-center">
         <button
@@ -129,7 +130,7 @@ export default function Results() {
               <CriteriaRadar results={results} />
             )}
             <div className="mt-6">
-              <h2 className="font-semibold mb-2">{t('scoreChart')}</h2>
+              <h2 className="text-xl font-semibold mb-2">{t('scoreChart')}</h2>
               <ScoreChart results={results} />
             </div>
           </>
@@ -146,6 +147,7 @@ export default function Results() {
         </button>
       </div>
     </div>
+  </div>
   );
 }
 

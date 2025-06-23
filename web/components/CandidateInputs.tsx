@@ -43,7 +43,7 @@ export default function CandidateInputs({ candidates, setCandidates }: Props) {
       <button
         type="button"
         onClick={add}
-        className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+        className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
       >
         <Plus size={16} />
         {t('addItem')}

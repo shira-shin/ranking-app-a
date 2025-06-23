@@ -33,7 +33,7 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
             value={c.name}
             onChange={(e) => update(i, 'name', e.target.value)}
           />
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <input
               type="range"
               min={1}
@@ -54,7 +54,7 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
       <button
         type="button"
         onClick={add}
-        className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+        className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
       >
         <Plus size={16} />
         {t('addCriterion')}
