@@ -22,9 +22,10 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-The API requires `OPENAI_API_KEY` to be set in the environment. Create a `.env`
-file or export the variable before running the server. When testing without a
-key, set `USE_DUMMY_DATA=1` to return sample rankings.
+The API requires `OPENAI_API_KEY` to be set in the environment. Copy
+`.env.example` to `.env` and replace `YOUR_OPENAI_API_KEY` with your actual key
+before running the server. When testing without a key, set
+`USE_DUMMY_DATA=1` to return sample rankings.
 
 If you don't have an OpenAI API key handy, start the server with
 ``USE_DUMMY_DATA=1`` to use built-in sample rankings:
