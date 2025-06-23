@@ -4,6 +4,7 @@ import SaveHistoryButton from '../components/SaveHistoryButton';
 import RankCard from '../components/RankCard';
 import ScoreChart from '../components/ScoreChart';
 import TableView from '../components/TableView';
+import CriteriaRadar from '../components/CriteriaRadar';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -17,7 +18,7 @@ export default function Results() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [summary, setSummary] = useState('');
-  const [view, setView] = useState<'card' | 'table'>('card');
+  const [view, setView] = useState<'card' | 'table' | 'analysis'>('card');
 
   useEffect(() => {
     if (router.isReady) {
@@ -95,6 +96,12 @@ export default function Results() {
         >
           {t('tableView')}
         </button>
+        <button
+          className={`px-3 py-1 rounded ${view === 'analysis' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setView('analysis')}
+        >
+          {t('visualAnalysis')}
+        </button>
       </div>
       {summary && (
         <p className="text-center font-semibold text-lg">{summary}</p>
@@ -114,8 +121,10 @@ export default function Results() {
                   <RankCard key={item.rank} {...item} />
                 ))}
               </div>
-            ) : (
+            ) : view === 'table' ? (
               <TableView results={results} />
+            ) : (
+              <CriteriaRadar results={results} />
             )}
             <div className="mt-6">
               <h2 className="font-semibold mb-2">{t('scoreChart')}</h2>
