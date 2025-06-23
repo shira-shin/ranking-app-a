@@ -22,7 +22,7 @@ export default function SaveHistoryButton({ data }: { data: any }) {
 
   return (
     <button
-      className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700"
+      className="btn btn-accent"
       onClick={handleSave}
     >
       {t('saveHistory')}
