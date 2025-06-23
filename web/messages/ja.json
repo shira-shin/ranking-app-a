@@ -24,8 +24,11 @@
   "formatError": "レスポンス形式が正しくありません",
   "rank": "順位",
   "score": "スコア",
+  "name": "名前",
   "comingSoon": "近日公開",
   "summary": "最も評価が高かったのは{name}です！",
   "reRank": "再ランキング",
-  "scoreChart": "スコアチャート"
+  "scoreChart": "スコアチャート",
+  "cardView": "カード表示",
+  "tableView": "テーブル表示"
 }

@@ -33,17 +33,17 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
             value={c.name}
             onChange={(e) => update(i, 'name', e.target.value)}
           />
-          <select
-            className="p-2 border rounded-md bg-gray-50"
-            value={c.weight}
-            onChange={(e) => update(i, 'weight', e.target.value)}
-          >
-            {[1, 2, 3, 4, 5].map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-1">
+            <input
+              type="range"
+              min={1}
+              max={5}
+              step={1}
+              value={c.weight}
+              onChange={(e) => update(i, 'weight', e.target.value)}
+            />
+            <span className="text-sm w-5 text-center">{c.weight}</span>
+          </div>
           {criteria.length > 1 && (
             <button type="button" onClick={() => remove(i)} className="p-2 text-red-500">
               <X size={18} />

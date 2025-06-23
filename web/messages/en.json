@@ -24,8 +24,11 @@
   "formatError": "Invalid response format",
   "rank": "Rank",
   "score": "Score",
+  "name": "Name",
   "comingSoon": "Coming soon",
   "summary": "Top item is {item}!",
   "reRank": "Start Over",
-  "scoreChart": "Score Chart"
+  "scoreChart": "Score Chart",
+  "cardView": "Card View",
+  "tableView": "Table View"
 }

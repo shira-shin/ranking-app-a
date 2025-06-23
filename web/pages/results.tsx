@@ -3,6 +3,7 @@ import ExportButtons from '../components/ExportButtons';
 import SaveHistoryButton from '../components/SaveHistoryButton';
 import RankCard from '../components/RankCard';
 import ScoreChart from '../components/ScoreChart';
+import TableView from '../components/TableView';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -16,6 +17,7 @@ export default function Results() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [summary, setSummary] = useState('');
+  const [view, setView] = useState<'card' | 'table'>('card');
 
   useEffect(() => {
     if (router.isReady) {
@@ -80,6 +82,20 @@ export default function Results() {
           {t('backHome')}
         </button>
       </div>
+      <div className="flex justify-center gap-2">
+        <button
+          className={`px-3 py-1 rounded ${view === 'card' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setView('card')}
+        >
+          {t('cardView')}
+        </button>
+        <button
+          className={`px-3 py-1 rounded ${view === 'table' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setView('table')}
+        >
+          {t('tableView')}
+        </button>
+      </div>
       {summary && (
         <p className="text-center font-semibold text-lg">{summary}</p>
       )}
@@ -92,11 +108,15 @@ export default function Results() {
           <p>{t('noResults')}</p>
         ) : (
           <>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {results.map((item) => (
-                <RankCard key={item.rank} {...item} />
-              ))}
-            </div>
+            {view === 'card' ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {results.map((item) => (
+                  <RankCard key={item.rank} {...item} />
+                ))}
+              </div>
+            ) : (
+              <TableView results={results} />
+            )}
             <div className="mt-6">
               <h2 className="font-semibold mb-2">{t('scoreChart')}</h2>
               <ScoreChart results={results} />
