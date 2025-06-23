@@ -34,14 +34,14 @@ export default function ExportButtons({ data }: Props) {
   return (
     <div className="buttons">
       <button
-        className="px-3 py-1 bg-blue-400 text-white rounded cursor-not-allowed opacity-60"
+        className="btn btn-primary btn-disabled"
         onClick={exportPdf}
         disabled
       >
         {t('exportPdf')}
       </button>
       <button
-        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+        className="btn btn-accent"
         onClick={exportCsv}
       >
         {t('exportCsv')}
