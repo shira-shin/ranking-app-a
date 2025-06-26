@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply p-4 font-sans bg-background;
+    @apply p-4 font-sans bg-background text-[16px];
   }
 }
 

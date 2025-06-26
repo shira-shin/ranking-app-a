@@ -14,7 +14,7 @@ const RankCard: FC<Props> = ({ name, score, rank, reasons }) => {
   const borderColor = rank <= 3 ? medalClasses[rank - 1] : 'gray';
   return (
     <div
-      className={`relative card hover:shadow-lg transition animate-fadeIn border-l-4 ${rank <= 3 ? 'scale-[1.03]' : ''}`}
+      className={`relative card flex hover:shadow-lg transition animate-fadeIn border-l-4 ${rank <= 3 ? 'scale-[1.03]' : ''}`}
       style={{ borderColor: borderColor }}
     >
       <div
@@ -26,18 +26,22 @@ const RankCard: FC<Props> = ({ name, score, rank, reasons }) => {
           {t('rank')} {rank}
         </div>
       </div>
-      <h2 className="text-xl font-bold mb-2">{name || 'N/A'}</h2>
-      <p className="text-xl font-extrabold mb-2">{t('score')}: {score ?? '-'}</p>
-      {reasons && Object.keys(reasons).length > 0 && (
-        <ul className="list-disc list-inside space-y-2 mt-2 text-sm">
-          {Object.entries(reasons).map(([k, v]) => (
-            <li key={k} className="bg-gray-50 rounded px-2 py-2 shadow">
-              <span className="font-semibold mr-2">{k}:</span>
-              {v}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="w-1/3 pr-4 border-r">
+        <h2 className="text-2xl font-bold mb-2">{name || 'N/A'}</h2>
+        <p className="text-xl font-extrabold">{t('score')}: {score ?? '-'}</p>
+      </div>
+      <div className="w-2/3 pl-4">
+        {reasons && Object.keys(reasons).length > 0 && (
+          <ul className="list-disc list-inside space-y-2 text-sm">
+            {Object.entries(reasons).map(([k, v]) => (
+              <li key={k} className="bg-gray-50 rounded px-2 py-2 shadow">
+                <span className="font-semibold mr-2">{k}:</span>
+                {v}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
