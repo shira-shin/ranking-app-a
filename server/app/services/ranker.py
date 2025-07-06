@@ -17,13 +17,20 @@ class RankerService:
     temperature = 0
 
     def __init__(self) -> None:
-        """Initialize the OpenAI client without extra parameters."""
-        # openai v1.x automatically reads settings such as
-        # `OPENAI_API_KEY` from environment variables. Passing
-        # unsupported arguments like ``proxies`` or ``api_key`` will
-        # raise ``TypeError`` in recent versions, so we simply
-        # instantiate ``OpenAI()``.
-        self.client = OpenAI()
+        """Initialize the OpenAI client unless running in dummy mode.
+
+        When ``USE_DUMMY_DATA=1`` is present in the environment the service
+        skips creating an ``OpenAI`` client.  This allows the API to operate
+        without an API key during local development.
+        """
+        self.use_dummy = os.getenv("USE_DUMMY_DATA") == "1"
+
+        # openai v1.x automatically reads settings such as ``OPENAI_API_KEY``
+        # from environment variables.  Passing unsupported arguments like
+        # ``proxies`` or ``api_key`` will raise ``TypeError`` in recent
+        # versions, so we simply instantiate ``OpenAI()`` when not in dummy
+        # mode.
+        self.client = None if self.use_dummy else OpenAI()
 
     def _cleanup_json(self, text: str) -> str:
         """Try to extract a JSON object or array from a text blob."""
@@ -103,13 +110,14 @@ class RankerService:
         raise ValueError("Failed to parse JSON from OpenAI response")
 
     def rank(self, prompt: str, expected_count: int | None = None) -> List[Dict[str, Any]]:
-        """Public method to generate ranking from a prompt.
+        """Generate ranking results from a prompt.
 
-        If the environment variable ``USE_DUMMY_DATA`` is set, return a static
-        ranking response.  This is helpful for local development when no
-        OpenAI API key is available.
+        When ``self.use_dummy`` is ``True`` the method returns a built-in set
+        of rankings instead of calling the OpenAI API.  This behaviour is
+        controlled by the ``USE_DUMMY_DATA`` environment variable and is
+        intended for local development without API access.
         """
-        if os.getenv("USE_DUMMY_DATA"):
+        if self.use_dummy:
             data = [
                 {
                     "name": "Sample A",
