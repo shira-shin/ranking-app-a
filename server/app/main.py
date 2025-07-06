@@ -90,6 +90,16 @@ async def history():
     return _read_history()
 
 
+@app.get("/history/{item_id}")
+async def get_history(item_id: str):
+    """Retrieve a single history item by ID."""
+    items = _read_history()
+    for item in items:
+        if item.get("id") == item_id:
+            return item
+    raise HTTPException(status_code=404, detail="Item not found")
+
+
 @app.delete("/history/{item_id}")
 async def delete_history(item_id: str):
     """Delete a history entry by its ID."""

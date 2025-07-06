@@ -1,6 +1,7 @@
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ExportButtons from '../components/ExportButtons';
 import SaveHistoryButton from '../components/SaveHistoryButton';
+import ShareButton from '../components/ShareButton';
 import RankCard from '../components/RankCard';
 import ScoreChart from '../components/ScoreChart';
 import TableView from '../components/TableView';
@@ -20,33 +21,55 @@ export default function Results() {
   const [summary, setSummary] = useState('');
   const [view, setView] = useState<'card' | 'table' | 'analysis'>('card');
 
+  const processArray = (data: any) => {
+    let arr: any = [];
+    if (Array.isArray(data)) {
+      if (data.length === 1 && data[0]?.rankings) {
+        arr = data[0].rankings;
+      } else {
+        arr = data;
+      }
+    } else if (Array.isArray(data.results)) {
+      arr = data.results;
+    } else if (Array.isArray(data.rankings)) {
+      arr = data.rankings;
+    } else {
+      arr = [data.results ?? data.rankings ?? data];
+    }
+    const sorted = (arr as RankingItem[]).sort((a, b) =>
+      (a.rank ?? 0) - (b.rank ?? 0)
+    );
+    setResults(sorted);
+    if (sorted.length > 0) {
+      setSummary(t('summary', { item: sorted[0].name }));
+    }
+  };
+
   useEffect(() => {
+    const fetchById = async (id: string) => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const res = await fetch(`${apiUrl}/history/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          return data.data || [];
+        }
+      } catch {
+        /* ignore */
+      }
+      return [];
+    };
     if (typeof window !== 'undefined') {
+      const id = router.query.id as string | undefined;
       const stored = localStorage.getItem('rankingData');
-      if (stored) {
+      if (id) {
+        fetchById(id).then((arr) => {
+          processArray(arr);
+        });
+      } else if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          let arr: any = [];
-          if (Array.isArray(parsed)) {
-            if (parsed.length === 1 && parsed[0]?.rankings) {
-              arr = parsed[0].rankings;
-            } else {
-              arr = parsed;
-            }
-          } else if (Array.isArray(parsed.results)) {
-            arr = parsed.results;
-          } else if (Array.isArray(parsed.rankings)) {
-            arr = parsed.rankings;
-          } else {
-            arr = [parsed.results ?? parsed.rankings ?? parsed];
-          }
-          const sorted = (arr as RankingItem[]).sort((a, b) =>
-            (a.rank ?? 0) - (b.rank ?? 0)
-          );
-          setResults(sorted);
-          if (sorted.length > 0) {
-            setSummary(t('summary', { item: sorted[0].name }));
-          }
+          processArray(parsed);
         } catch (err) {
           console.error('parse error', err);
           setError(t('formatError'));
@@ -70,12 +93,12 @@ export default function Results() {
   }, [results, loading, t]);
 
   const goHome = () => {
-    router.push('/');
+    router.push('/create');
   };
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4">
-      <div className="max-w-2xl mx-auto space-y-4">
+    <div className="max-w-[1100px] mx-auto px-4 text-base">
+      <div className="space-y-4">
         <LanguageSwitcher />
       <h1 className="text-3xl font-bold text-center">{t('title')}</h1>
       <div className="text-center">
@@ -119,7 +142,7 @@ export default function Results() {
         ) : (
           <>
             {view === 'card' ? (
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-4">
                 {results.map((item) => (
                   <RankCard key={item.rank} {...item} />
                 ))}
@@ -127,18 +150,21 @@ export default function Results() {
             ) : view === 'table' ? (
               <TableView results={results} />
             ) : (
-              <CriteriaRadar results={results} />
+              <CriteriaRadar results={results} full />
             )}
-            <div className="mt-6">
-              <h2 className="text-xl font-semibold mb-2">{t('scoreChart')}</h2>
-              <ScoreChart results={results} />
-            </div>
+            {view !== 'analysis' && (
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-2">{t('scoreChart')}</h2>
+                <ScoreChart results={results} />
+              </div>
+            )}
           </>
         )}
       </div>
       <div className="mt-6 flex gap-2 flex-wrap">
         <ExportButtons data={results} />
         <SaveHistoryButton data={results} />
+        <ShareButton data={results} />
         <button
           onClick={goHome}
           className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
