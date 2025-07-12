@@ -166,6 +166,12 @@ export default function Results() {
         <SaveHistoryButton data={results} />
         <ShareButton data={results} />
         <button
+          onClick={() => router.push('/history')}
+          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          {t('historyTitle')}
+        </button>
+        <button
           onClick={goHome}
           className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
         >
