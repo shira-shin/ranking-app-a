@@ -97,7 +97,7 @@ export default function Results() {
   };
 
   return (
-    <div className="max-w-[1100px] mx-auto px-4 text-base">
+    <div className="max-w-[1140px] mx-auto px-4 text-base">
       <div className="space-y-4">
         <LanguageSwitcher />
       <h1 className="text-3xl font-bold text-center">{t('title')}</h1>

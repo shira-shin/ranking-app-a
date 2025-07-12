@@ -38,7 +38,7 @@ export default function HistoryPage() {
   }, []);
 
   return (
-    <div className="max-w-[1100px] mx-auto px-4 space-y-4">
+    <div className="max-w-[1140px] mx-auto px-4 space-y-4">
       <h1 className="text-3xl font-bold">{t('historyTitle')}</h1>
       {items.length === 0 ? (
         <p>{t('noResults')}</p>

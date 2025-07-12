@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
 
 @layer base {
   body {
-    @apply p-4 font-sans bg-background text-[16px];
+    @apply p-4 font-sans bg-background text-[16px] text-textPrimary;
   }
   input:focus {
     @apply outline-none ring-2 ring-primary border-primary;
@@ -18,19 +19,19 @@
     @apply px-3 py-1 rounded text-white transition font-medium;
   }
   .btn-primary {
-    @apply bg-primary hover:bg-primary-dark;
+    @apply bg-primary hover:bg-primary-dark transform hover:scale-105;
   }
   .btn-accent {
     @apply bg-accent hover:bg-accent-dark;
   }
   .btn-accent2 {
-    @apply bg-accent2 hover:bg-accent2-dark;
+    @apply bg-accent hover:bg-accent-dark;
   }
   .btn-disabled {
     @apply cursor-not-allowed opacity-60;
   }
   .card {
-    @apply bg-white p-4 rounded-lg shadow;
+    @apply bg-surface p-6 rounded-xl shadow-md;
   }
   .buttons {
     @apply mt-5 flex gap-2;
@@ -41,11 +42,11 @@
     @apply w-40 h-2 rounded-lg bg-gray-200 cursor-pointer appearance-none;
   }
   .range-input::-webkit-slider-thumb {
-    @apply w-5 h-5 rounded-full bg-primary appearance-none;
-    margin-top: -6px;
+    @apply w-6 h-6 rounded-full bg-primary appearance-none;
+    margin-top: -8px;
   }
   .range-input::-moz-range-thumb {
-    @apply w-5 h-5 rounded-full bg-primary border-none;
+    @apply w-6 h-6 rounded-full bg-primary border-none;
   }
   .range-input::-webkit-slider-runnable-track {
     @apply bg-primary/30 h-2 rounded-lg;

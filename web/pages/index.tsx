@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="max-w-[1100px] mx-auto px-4 text-center space-y-20">
+    <div className="max-w-[1140px] mx-auto px-4 text-center space-y-20">
       <section className="space-y-6 pt-20">
         <h1 className="text-5xl font-bold">あらゆる『迷い』に、明確な答えを。</h1>
         <p className="text-lg">複数の選択肢を、あなただけの評価基準で簡単にランキング。直感的なビジュアル分析で、最適な選択をサポートします。</p>
