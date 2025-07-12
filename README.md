@@ -52,3 +52,7 @@ POST   /history        # add a new entry, returns the stored object
 GET    /history        # list all history entries
 DELETE /history/{id}   # remove an entry by its ID
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
