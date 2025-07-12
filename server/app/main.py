@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Body, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from .services.ranker import RankerService
@@ -8,6 +8,8 @@ from pathlib import Path
 from uuid import uuid4
 import logging
 import os
+from io import BytesIO
+from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -113,3 +115,23 @@ async def delete_history(item_id: str):
         raise HTTPException(status_code=404, detail="Item not found")
     _write_history(new_items)
     return {"status": "deleted"}
+
+
+@app.post("/share_image")
+async def share_image(data: List[Any] = Body(...)):
+    """Return a simple PNG image showing ranking data."""
+    font = ImageFont.load_default()
+    line_height = 20
+    padding = 10
+    lines = [f"{item.get('rank')}. {item.get('name')} ({item.get('score')})" for item in data]
+    width = max((ImageDraw.Draw(Image.new("RGB", (1, 1))).textlength(line, font=font) for line in lines), default=100) + padding * 2
+    height = line_height * len(lines) + padding * 2
+    img = Image.new("RGB", (int(width), height), "white")
+    draw = ImageDraw.Draw(img)
+    y = padding
+    for line in lines:
+        draw.text((padding, y), line, fill="black", font=font)
+        y += line_height
+    buf = BytesIO()
+    img.save(buf, format="PNG")
+    return Response(buf.getvalue(), media_type="image/png")
