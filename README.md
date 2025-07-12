@@ -30,7 +30,7 @@ The API requires `OPENAI_API_KEY` to be set in the environment. Copy
 before running the server. When testing without a key, set
 `USE_DUMMY_DATA=1` to return sample rankings.
 
-When deploying the backend, set the `ALLOWED_ORIGINS` environment variable to
+When deploying the backend, set the `FRONTEND_ORIGINS` environment variable to
 the URL of your frontend (comma‑separated if multiple). This controls which
 sites are allowed to make requests to the API. By default it only allows
 `http://localhost:3000` for local development.
