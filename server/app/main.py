@@ -14,11 +14,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-allowed_origins = [
-    origin.strip()
-    for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
-    if origin.strip()
-]
+frontend_origins_env = os.getenv("FRONTEND_ORIGINS", "http://localhost:3000")
+allowed_origins = [origin.strip() for origin in frontend_origins_env.split(",") if origin.strip()]
 
 app.add_middleware(
     CORSMiddleware,
