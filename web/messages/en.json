@@ -34,5 +34,8 @@
   "visualAnalysis": "Visual Analysis",
   "share": "Share",
   "historyTitle": "History",
-  "deleteHistory": "Delete"
+  "deleteHistory": "Delete",
+  "publicLabel": "Public",
+  "timelineTitle": "Public Timeline",
+  "view": "View"
 }
