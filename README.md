@@ -10,6 +10,9 @@ cd web
 npm install
 npm run dev
 ```
+The `web` directory uses TypeScript with a standard `tsconfig.json` configured
+for Next.js. Run `npm run build` to compile the project for production or use
+`npx tsc --noEmit` to perform a type check only.
 
 ### Server (FastAPI)
 ```
