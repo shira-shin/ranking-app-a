@@ -6,7 +6,10 @@ export default function Home() {
       <section className="space-y-6 pt-20">
         <h1 className="text-5xl font-bold">あらゆる『迷い』に、明確な答えを。</h1>
         <p className="text-lg">複数の選択肢を、あなただけの評価基準で簡単にランキング。直感的なビジュアル分析で、最適な選択をサポートします。</p>
-        <Link href="/create" className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark text-xl">無料でランキングを作成する</Link>
+        <div className="flex justify-center gap-4">
+          <Link href="/create" className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark text-xl">無料でランキングを作成する</Link>
+          <Link href="/history" className="inline-block px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-xl">履歴を見る</Link>
+        </div>
       </section>
       <section className="space-y-8">
         <h2 className="text-3xl font-bold">たった3ステップで、意思決定をサポート</h2>

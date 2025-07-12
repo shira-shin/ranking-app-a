@@ -31,6 +31,8 @@
   "scoreChart": "Score Chart",
   "cardView": "Card View",
   "tableView": "Table View",
-  "visualAnalysis": "Visual Analysis"
-  ,"share": "Share"
+  "visualAnalysis": "Visual Analysis",
+  "share": "Share",
+  "historyTitle": "History",
+  "deleteHistory": "Delete"
 }

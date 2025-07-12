@@ -31,6 +31,8 @@
   "scoreChart": "スコアチャート",
   "cardView": "カード表示",
   "tableView": "テーブル表示",
-  "visualAnalysis": "ビジュアル分析"
-  ,"share": "共有"
+  "visualAnalysis": "ビジュアル分析",
+  "share": "共有",
+  "historyTitle": "履歴",
+  "deleteHistory": "削除"
 }
