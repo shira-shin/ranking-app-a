@@ -24,7 +24,7 @@ export default function CandidateInputs({ candidates, setCandidates }: Props) {
       {candidates.map((c, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
-            className="flex-1 p-2 border rounded-md bg-gray-50"
+            className="flex-1 p-2 border rounded-md bg-gray-50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
             placeholder={t('itemPlaceholder')}
             value={c}
             onChange={(e) => update(e.target.value, i)}
