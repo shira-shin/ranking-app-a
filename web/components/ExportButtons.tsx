@@ -28,15 +28,38 @@ export default function ExportButtons({ data }: Props) {
     URL.revokeObjectURL(url);
   };
 
-  const exportPdf = () => {
-    alert(`${t('comingSoon')}: PDF`);
+  const exportPdf = async () => {
+    const jsPDFModule = await import('jspdf');
+    const doc = new jsPDFModule.jsPDF();
+    doc.setFontSize(16);
+    doc.text(t('title'), 10, 10);
+    doc.setFontSize(12);
+    let y = 20;
+    data.forEach((r) => {
+      const header = `${r.rank}. ${r.name} (${r.score})`;
+      doc.text(header, 10, y);
+      y += 7;
+      const reasons = Object.entries(r.reasons ?? {})
+        .map(([k, v]) => `${k}: ${v}`)
+        .join('; ');
+      if (reasons) {
+        const lines = doc.splitTextToSize(reasons, 180);
+        doc.text(lines, 10, y);
+        y += lines.length * 7;
+      }
+      y += 5;
+      if (y > 280) {
+        doc.addPage();
+        y = 10;
+      }
+    });
+    doc.save('ranking.pdf');
   };
   return (
     <div className="buttons">
       <button
-        className="btn btn-primary btn-disabled"
+        className="btn btn-primary"
         onClick={exportPdf}
-        disabled
       >
         {t('exportPdf')}
       </button>
