@@ -83,10 +83,23 @@ async def rank(request: RankRequest):
     return {"results": ranking}
 
 @app.post("/history")
-async def save_history(data: Any = Body(...)):
-    """Store ranking results on disk."""
+async def save_history(body: Any = Body(...)):
+    """Store ranking results on disk.
+
+    The endpoint accepts either raw ranking data or an object with ``data`` and
+    ``public`` fields for backward compatibility.
+    """
+    if isinstance(body, dict) and "data" in body:
+        data = body.get("data")
+        is_public = bool(body.get("public"))
+    else:
+        data = body
+        is_public = False
+
     items = _read_history()
     entry = {"id": str(uuid4()), "data": data}
+    if is_public:
+        entry["public"] = True
     items.append(entry)
     _write_history(items)
     return entry
@@ -116,3 +129,10 @@ async def delete_history(item_id: str):
         raise HTTPException(status_code=404, detail="Item not found")
     _write_history(new_items)
     return {"status": "deleted"}
+
+
+@app.get("/public")
+async def public_history():
+    """Return history items that are marked as public."""
+    items = _read_history()
+    return [item for item in items if item.get("public")]

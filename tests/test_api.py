@@ -49,3 +49,16 @@ def test_history_crud(tmp_path, monkeypatch):
     resp = client.get("/history")
     assert resp.status_code == 200
     assert resp.json() == []
+
+def test_public_history(tmp_path, monkeypatch):
+    temp_history = tmp_path / "history.json"
+    monkeypatch.setattr(main, "HISTORY_FILE", temp_history)
+
+    client.post("/history", json={"data": {"foo": "public"}, "public": True})
+    client.post("/history", json={"foo": "private"})
+
+    resp = client.get("/public")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert len(data) == 1
+    assert data[0]["data"] == {"foo": "public"}

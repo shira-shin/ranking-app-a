@@ -34,5 +34,8 @@
   "visualAnalysis": "ビジュアル分析",
   "share": "共有",
   "historyTitle": "履歴",
-  "deleteHistory": "削除"
+  "deleteHistory": "削除",
+  "publicLabel": "公開",
+  "timelineTitle": "公開タイムライン",
+  "view": "見る"
 }
