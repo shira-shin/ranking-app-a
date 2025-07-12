@@ -8,6 +8,9 @@
   body {
     @apply p-4 font-sans bg-background text-[16px];
   }
+  input:focus {
+    @apply outline-none ring-2 ring-primary border-primary;
+  }
 }
 
 @layer components {

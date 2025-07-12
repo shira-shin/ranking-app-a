@@ -28,7 +28,7 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
       {criteria.map((c, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
-            className="flex-1 p-2 border rounded-md bg-gray-50"
+            className="flex-1 p-2 border rounded-md bg-gray-50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
             placeholder={t('criterionPlaceholder')}
             value={c.name}
             onChange={(e) => update(i, 'name', e.target.value)}
