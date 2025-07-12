@@ -14,9 +14,9 @@ export default function ShareButton({ data }: { data: any }) {
       const saved = await res.json();
       const url = `${window.location.origin}/results?id=${saved.id}`;
       await navigator.clipboard.writeText(url);
-      alert(`URL copied: ${url}`);
+      alert(t('shareCopied', { url }));
     } catch (e) {
-      alert('Share failed');
+      alert(t('shareFailed'));
     }
   };
 

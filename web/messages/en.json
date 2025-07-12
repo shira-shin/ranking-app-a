@@ -34,5 +34,7 @@
   "visualAnalysis": "Visual Analysis",
   "share": "Share",
   "historyTitle": "History",
-  "deleteHistory": "Delete"
+  "deleteHistory": "Delete",
+  "shareCopied": "URL copied: {url}",
+  "shareFailed": "Share failed"
 }
