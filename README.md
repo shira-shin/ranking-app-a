@@ -52,3 +52,14 @@ POST   /history        # add a new entry, returns the stored object
 GET    /history        # list all history entries
 DELETE /history/{id}   # remove an entry by its ID
 ```
+
+### Running tests
+
+Server tests are written with `pytest`. Install the backend dependencies
+from `server/requirements.txt` and run the test suite with dummy data
+enabled so no OpenAI key is required:
+
+```
+pip install -r server/requirements.txt pytest
+USE_DUMMY_DATA=1 pytest
+```
