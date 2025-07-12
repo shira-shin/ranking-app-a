@@ -49,3 +49,10 @@ def test_history_crud(tmp_path, monkeypatch):
     resp = client.get("/history")
     assert resp.status_code == 200
     assert resp.json() == []
+
+
+def test_share_image_endpoint():
+    payload = [{"rank": 1, "name": "A", "score": 10}, {"rank": 2, "name": "B", "score": 9}]
+    resp = client.post("/share_image", json=payload)
+    assert resp.status_code == 200
+    assert resp.headers["content-type"].startswith("image/")
