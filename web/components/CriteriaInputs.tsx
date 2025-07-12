@@ -36,6 +36,7 @@ export default function CriteriaInputs({ criteria, setCriteria }: Props) {
           <div className="flex items-center gap-2">
             <input
               type="range"
+              className="range-input"
               min={1}
               max={5}
               step={1}
