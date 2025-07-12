@@ -14,6 +14,10 @@ module.exports = {
           DEFAULT: '#10b981',
           dark: '#059669'
         },
+        accent2: {
+          DEFAULT: '#F5A623',
+          dark: '#d97706'
+        },
         background: '#f9fafb'
       },
       spacing: {

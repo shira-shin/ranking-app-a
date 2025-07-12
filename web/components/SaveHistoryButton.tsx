@@ -22,7 +22,7 @@ export default function SaveHistoryButton({ data }: { data: any }) {
 
   return (
     <button
-      className="btn btn-accent"
+      className="btn btn-accent2"
       onClick={handleSave}
     >
       {t('saveHistory')}

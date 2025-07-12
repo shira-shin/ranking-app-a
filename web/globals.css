@@ -23,6 +23,9 @@
   .btn-accent {
     @apply bg-accent hover:bg-accent-dark;
   }
+  .btn-accent2 {
+    @apply bg-accent2 hover:bg-accent2-dark;
+  }
   .btn-disabled {
     @apply cursor-not-allowed opacity-60;
   }

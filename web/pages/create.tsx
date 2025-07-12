@@ -122,7 +122,7 @@ export default function Create() {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full py-2 bg-accent2 text-white rounded-md shadow hover:bg-accent2-dark transition disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {loading && <Spinner />}
         {loading ? t('generating') : t('generate')}
