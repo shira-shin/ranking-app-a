@@ -32,5 +32,23 @@
   .buttons {
     @apply mt-5 flex gap-2;
   }
+
+  /* Custom range input styling */
+  .range-input {
+    @apply w-40 h-2 rounded-lg bg-gray-200 cursor-pointer appearance-none;
+  }
+  .range-input::-webkit-slider-thumb {
+    @apply w-5 h-5 rounded-full bg-primary appearance-none;
+    margin-top: -6px;
+  }
+  .range-input::-moz-range-thumb {
+    @apply w-5 h-5 rounded-full bg-primary border-none;
+  }
+  .range-input::-webkit-slider-runnable-track {
+    @apply bg-primary/30 h-2 rounded-lg;
+  }
+  .range-input::-moz-range-track {
+    @apply bg-primary/30 h-2 rounded-lg;
+  }
 }
 
