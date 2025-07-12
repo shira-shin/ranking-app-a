@@ -96,7 +96,7 @@ export default function Create() {
   };
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4">
+    <div className="max-w-[1140px] mx-auto px-4">
       <div className="max-w-xl mx-auto mt-10 space-y-6">
         <LanguageSwitcher />
         <h1 className="text-3xl font-bold text-center">{t('generate')}</h1>
