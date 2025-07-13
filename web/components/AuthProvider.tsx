@@ -1,6 +1,11 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, provider } from '../firebase';
+import { createContext, useContext, ReactNode } from 'react';
+import {
+  SessionProvider,
+  useSession,
+  signIn,
+  signOut,
+} from 'next-auth/react';
+import type { User } from 'next-auth';
 
 interface AuthContextType {
   user: User | null;
@@ -16,25 +21,29 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
-    return () => unsub();
-  }, []);
+function InnerProvider({ children }: { children: ReactNode }) {
+  const { data: session } = useSession();
+  const user = session?.user ?? null;
 
   const login = async () => {
-    await signInWithPopup(auth, provider);
+    await signIn('google');
   };
 
   const logout = async () => {
-    await signOut(auth);
+    await signOut();
   };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
+  );
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return (
+    <SessionProvider>
+      <InnerProvider>{children}</InnerProvider>
+    </SessionProvider>
   );
 }

@@ -1,23 +1,27 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../components/AuthProvider';
-import { collection, getDocs, query, limit } from 'firebase/firestore';
-import { db } from '../firebase';
 
 export default function Home() {
   const { user } = useAuth();
   const [history, setHistory] = useState<any[]>([]);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     const load = async () => {
       if (user) {
-        const q = query(collection(db, 'users', user.uid, 'rankings'), limit(3));
-        const snap = await getDocs(q);
-        setHistory(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+        try {
+          const res = await fetch(`${apiUrl}/history`);
+          if (res.ok) {
+            setHistory(await res.json());
+          }
+        } catch {
+          /* ignore */
+        }
       }
     };
     load();
-  }, [user]);
+  }, [user, apiUrl]);
 
   return (
     <div className="max-w-[1140px] mx-auto px-4 text-center space-y-20">
