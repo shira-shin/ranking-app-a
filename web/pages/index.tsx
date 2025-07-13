@@ -1,6 +1,24 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../components/AuthProvider';
+import { collection, getDocs, query, limit } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export default function Home() {
+  const { user } = useAuth();
+  const [history, setHistory] = useState<any[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      if (user) {
+        const q = query(collection(db, 'users', user.uid, 'rankings'), limit(3));
+        const snap = await getDocs(q);
+        setHistory(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+      }
+    };
+    load();
+  }, [user]);
+
   return (
     <div className="max-w-[1140px] mx-auto px-4 text-center space-y-20">
       <section className="space-y-6 pt-20">
@@ -55,6 +73,26 @@ export default function Home() {
       <section className="space-y-6 pb-20">
         <h2 className="text-3xl font-bold">さあ、あなたの最初のランキングを作りましょう</h2>
         <Link href="/create" className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark text-xl">無料でランキングを作成する</Link>
+      </section>
+      {user && (
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold">あなたのランキング履歴</h2>
+          {history.length === 0 ? (
+            <p>まだ履歴はありません。</p>
+          ) : (
+            <ul className="space-y-2">
+              {history.map((h) => (
+                <li key={h.id} className="border p-2 rounded">
+                  <Link href={`/results?id=${h.id}`}>{h.title || h.id}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
+      <section className="space-y-6 pb-20">
+        <h2 className="text-2xl font-bold">みんなの公開ランキング</h2>
+        <p>公開ランキング一覧は準備中です。</p>
       </section>
     </div>
   );
