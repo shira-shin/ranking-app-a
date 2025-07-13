@@ -32,7 +32,11 @@ before running the server. When testing without a key, set
 
 The web frontend uses Firebase Authentication and Firestore. Set the
 `NEXT_PUBLIC_FIREBASE_*` variables in your `.env` file with your Firebase
-project credentials.
+project credentials. When running `npm run dev` inside the `web` directory,
+Next.js only reads environment files from that folder. Copy `.env.example` to
+`web/.env.local` (or `web/.env`) and fill in your Firebase keys there;
+otherwise the frontend will start with an invalid API key and Firebase will
+raise `auth/invalid-api-key` errors.
 
 When deploying the backend, set the `FRONTEND_ORIGINS` environment variable to
 the URL of your frontend (comma‑separated if multiple). This controls which
