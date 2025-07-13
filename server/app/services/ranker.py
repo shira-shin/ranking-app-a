@@ -25,12 +25,11 @@ class RankerService:
         """
         self.use_dummy = os.getenv("USE_DUMMY_DATA") == "1"
 
-        # openai v1.x automatically reads settings such as ``OPENAI_API_KEY``
-        # from environment variables.  Passing unsupported arguments like
-        # ``proxies`` or ``api_key`` will raise ``TypeError`` in recent
-        # versions, so we simply instantiate ``OpenAI()`` when not in dummy
-        # mode.
-        self.client = None if self.use_dummy else OpenAI()
+        # Initialize the OpenAI client using the API key from the environment
+        # explicitly.  This makes it clear which setting is used and keeps
+        # credentials out of the code base.
+        api_key = os.environ.get("OPENAI_API_KEY")
+        self.client = None if self.use_dummy else OpenAI(api_key=api_key)
 
     def _cleanup_json(self, text: str) -> str:
         """Try to extract a JSON object or array from a text blob."""
