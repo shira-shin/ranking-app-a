@@ -11,6 +11,13 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Provide a clearer message when environment variables are missing.
+if (!firebaseConfig.apiKey) {
+  throw new Error(
+    'Missing Firebase configuration. Did you copy `.env.example` to `web/.env.local` and set your Firebase keys?'
+  );
+}
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
