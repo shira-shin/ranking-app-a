@@ -34,5 +34,8 @@
   "visualAnalysis": "Visual Analysis",
   "share": "Share",
   "historyTitle": "History",
-  "deleteHistory": "Delete"
+  "deleteHistory": "Delete",
+  "login": "Login with Google",
+  "logout": "Logout",
+  "profile": "Profile"
 }
