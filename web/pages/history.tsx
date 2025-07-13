@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../components/AuthProvider';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
 
 interface HistoryEntry {
   id: string;
@@ -18,16 +16,10 @@ export default function HistoryPage() {
 
   const loadHistory = async () => {
     try {
-      if (user) {
-        const snap = await getDocs(collection(db, 'users', user.uid, 'rankings'));
-        const arr = snap.docs.map((d) => ({ id: d.id, data: d.data() }));
-        setItems(arr);
-      } else {
-        const res = await fetch(`${apiUrl}/history`);
-        if (res.ok) {
-          const data = await res.json();
-          setItems(data);
-        }
+      const res = await fetch(`${apiUrl}/history`);
+      if (res.ok) {
+        const data = await res.json();
+        setItems(data);
       }
     } catch {
       /* ignore */
@@ -36,13 +28,8 @@ export default function HistoryPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      if (user) {
-        await deleteDoc(doc(db, 'users', user.uid, 'rankings', id));
-        setItems(items.filter((i) => i.id !== id));
-      } else {
-        await fetch(`${apiUrl}/history/${id}`, { method: 'DELETE' });
-        setItems(items.filter((i) => i.id !== id));
-      }
+      await fetch(`${apiUrl}/history/${id}`, { method: 'DELETE' });
+      setItems(items.filter((i) => i.id !== id));
     } catch {
       /* ignore */
     }
@@ -50,7 +37,7 @@ export default function HistoryPage() {
 
   useEffect(() => {
     loadHistory();
-  }, [user]);
+  }, []);
 
   return (
     <div className="max-w-[1140px] mx-auto px-4 space-y-4">
