@@ -30,6 +30,10 @@ The API requires `OPENAI_API_KEY` to be set in the environment. Copy
 before running the server. When testing without a key, set
 `USE_DUMMY_DATA=1` to return sample rankings.
 
+Google authentication uses the environment variables `GOOGLE_CLIENT_ID` and
+`GOOGLE_CLIENT_SECRET`. Set these in your `.env` file along with the Firebase
+credentials.
+
 The web frontend uses Firebase Authentication and Firestore. Set the
 `NEXT_PUBLIC_FIREBASE_*` variables in your `.env` file with your Firebase
 project credentials.
