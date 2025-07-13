@@ -11,10 +11,23 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Provide a helpful error if the environment variables are missing.
-if (!firebaseConfig.apiKey) {
+// Provide a helpful error if any required environment variables are missing or
+// left as placeholders.
+const missingVars = [
+  'apiKey',
+  'authDomain',
+  'projectId',
+  'storageBucket',
+  'messagingSenderId',
+  'appId',
+].filter((key) => {
+  const value = (firebaseConfig as Record<string, string | undefined>)[key];
+  return !value || value.includes('your_');
+});
+
+if (missingVars.length > 0) {
   throw new Error(
-    'Missing Firebase env vars. Did you copy .env.example to web/.env.local?'
+    'Missing Firebase env vars. Did you copy web/.env.local.example to web/.env.local and set the values?'
   );
 }
 

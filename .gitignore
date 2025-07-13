@@ -10,3 +10,4 @@ __pycache__
 # Misc
 .DS_Store
 server/app/history.json
+web/.env.local
