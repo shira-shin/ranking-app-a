@@ -22,7 +22,11 @@ const missingVars = [
   'appId',
 ].filter((key) => {
   const value = (firebaseConfig as Record<string, string | undefined>)[key];
-  return !value || value.includes('your_');
+  return (
+    !value ||
+    value.includes('your_') ||
+    value.startsWith('dummy_')
+  );
 });
 
 if (missingVars.length > 0) {
