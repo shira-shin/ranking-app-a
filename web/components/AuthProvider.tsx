@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, provider } from '../firebase';
+import { auth, provider, firebaseEnabled } from '../firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -20,16 +20,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
+    if (!firebaseEnabled) return;
+    const unsub = onAuthStateChanged(auth!, (u) => setUser(u));
     return () => unsub();
   }, []);
 
   const login = async () => {
-    await signInWithPopup(auth, provider);
+    if (!firebaseEnabled) {
+      alert('Login is disabled');
+      return;
+    }
+    await signInWithPopup(auth!, provider!);
   };
 
   const logout = async () => {
-    await signOut(auth);
+    if (!firebaseEnabled) return;
+    await signOut(auth!);
   };
 
   return (

@@ -32,7 +32,7 @@ The API requires `OPENAI_API_KEY` to be set in the environment. Copy
 before running the server. When testing without a key, set
 `USE_DUMMY_DATA=1` to return sample rankings.
 
-The web frontend uses Firebase Authentication and Firestore. Set the `NEXT_PUBLIC_FIREBASE_*` variables with your Firebase project credentials. When running `npm run dev` inside the `web` directory, Next.js only reads environment files from that folder. Copy `web/.env.local.example` to `web/.env.local` (or `web/.env`) and fill in your Firebase keys there; otherwise the frontend will start with an invalid API key and Firebase will raise `auth/invalid-api-key` errors.
+The web frontend uses Firebase Authentication and Firestore. Set the `NEXT_PUBLIC_FIREBASE_*` variables with your Firebase project credentials. When running `npm run dev` inside the `web` directory, Next.js only reads environment files from that folder. Copy `web/.env.local.example` to `web/.env.local` (or `web/.env`) and fill in your Firebase keys there; otherwise the frontend will start with an invalid API key and Firebase will raise `auth/invalid-api-key` errors. If these variables are omitted the app will still run, but login functionality will be disabled.
 
 When deploying the backend, set the `FRONTEND_ORIGINS` environment variable to
 the URL of your frontend (comma‑separated if multiple). This controls which
