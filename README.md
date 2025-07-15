@@ -10,11 +10,9 @@ cd web
 npm install
 npm run dev
 ```
-Run these commands from the `web` directory so that Next.js can read the
-environment variables located there. Copy `web/.env.local.example` to
-`web/.env.local` and replace the `dummy_*` values with your actual Firebase
-credentials before starting the dev server. The `web` directory uses TypeScript
-with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to
+Run these commands from the `web` directory so that Next.js can read the environment variables located there.
+The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the `dummy_*` values with your actual Firebase credentials before starting the dev server.
+The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to
 compile the project for production or use `npx tsc --noEmit` to perform a type
 check only.
 
