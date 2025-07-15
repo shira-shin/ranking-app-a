@@ -11,8 +11,8 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Provide a helpful error if any required environment variables are missing or
-// left as placeholders.
+// Firebase can be disabled by omitting the environment variables.  In that case
+// authentication and Firestore features will be skipped.
 const missingVars = [
   'apiKey',
   'authDomain',
@@ -29,13 +29,20 @@ const missingVars = [
   );
 });
 
-if (missingVars.length > 0) {
-  throw new Error(
-    'Missing Firebase env vars. Did you copy web/.env.local.example to web/.env.local and set the values?'
-  );
+export const firebaseEnabled = missingVars.length === 0;
+
+let app;
+let auth;
+let provider;
+let db;
+
+if (firebaseEnabled) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  provider = new GoogleAuthProvider();
+  db = getFirestore(app);
+} else {
+  console.warn('Firebase disabled: missing env vars');
 }
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
-export const db = getFirestore(app);
+export { auth, provider, db };
