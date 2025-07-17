@@ -42,7 +42,10 @@ if (firebaseEnabled) {
   provider = new GoogleAuthProvider();
   db = getFirestore(app);
 } else {
-  console.warn('Firebase disabled: missing env vars');
+  // Log which variables are missing to help with local setup issues
+  console.warn(
+    `Firebase disabled: missing env vars (${missingVars.join(', ')})`
+  );
 }
 
 export { auth, provider, db };
