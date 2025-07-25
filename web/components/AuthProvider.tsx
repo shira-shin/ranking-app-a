@@ -6,12 +6,14 @@ interface AuthContextType {
   user: User | null;
   login: () => Promise<void>;
   logout: () => Promise<void>;
+  firebaseEnabled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async () => {},
   logout: async () => {},
+  firebaseEnabled,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -39,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, firebaseEnabled }}>
       {children}
     </AuthContext.Provider>
   );

@@ -6,6 +6,7 @@ from typing import Any, List
 import json
 from pathlib import Path
 from uuid import uuid4
+from datetime import datetime
 import logging
 import os
 
@@ -83,7 +84,11 @@ async def rank(request: RankRequest):
 async def save_history(data: Any = Body(...)):
     """Store ranking results on disk."""
     items = _read_history()
-    entry = {"id": str(uuid4()), "data": data}
+    entry = {
+        "id": str(uuid4()),
+        "data": data if not isinstance(data, dict) or "data" not in data else data["data"],
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    }
     items.append(entry)
     _write_history(items)
     return entry

@@ -8,11 +8,12 @@ import { db } from '../firebase';
 interface HistoryEntry {
   id: string;
   data: any;
+  created_at?: string;
 }
 
 export default function HistoryPage() {
   const t = useTranslations();
-  const { user } = useAuth();
+  const { user, firebaseEnabled } = useAuth();
   const [items, setItems] = useState<HistoryEntry[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -20,7 +21,7 @@ export default function HistoryPage() {
     try {
       if (user) {
         const snap = await getDocs(collection(db, 'users', user.uid, 'rankings'));
-        const arr = snap.docs.map((d) => ({ id: d.id, data: d.data() }));
+        const arr = snap.docs.map((d) => ({ id: d.id, ...d.data() } as any));
         setItems(arr);
       } else {
         const res = await fetch(`${apiUrl}/history`);
@@ -61,9 +62,14 @@ export default function HistoryPage() {
         <ul className="space-y-2">
           {items.map((item) => (
             <li key={item.id} className="flex justify-between items-center bg-white p-2 rounded shadow">
-              <Link href={`/results?id=${item.id}`} className="text-blue-600 hover:underline">
-                {item.data && item.data[0]?.name ? item.data[0].name : item.id}
-              </Link>
+              <div>
+                <Link href={`/results?id=${item.id}`} className="text-blue-600 hover:underline">
+                  {item.data && item.data[0]?.name ? item.data[0].name : item.id}
+                </Link>
+                {item.created_at && (
+                  <span className="ml-2 text-xs text-gray-500">{new Date(item.created_at).toLocaleString()}</span>
+                )}
+              </div>
               <button onClick={() => handleDelete(item.id)} className="text-red-600 hover:underline">
                 {t('deleteHistory')}
               </button>

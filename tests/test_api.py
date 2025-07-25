@@ -34,12 +34,15 @@ def test_history_crud(tmp_path, monkeypatch):
     assert resp.status_code == 200
     entry = resp.json()
     assert entry["data"] == payload
+    assert "created_at" in entry
     item_id = entry["id"]
 
     # Verify retrieval
     resp = client.get(f"/history/{item_id}")
     assert resp.status_code == 200
-    assert resp.json()["data"] == payload
+    returned = resp.json()
+    assert returned["data"] == payload
+    assert "created_at" in returned
 
     # Delete entry
     resp = client.delete(f"/history/{item_id}")

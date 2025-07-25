@@ -5,21 +5,22 @@ import { db } from '../firebase';
 
 export default function SaveHistoryButton({ data }: { data: any }) {
   const t = useTranslations();
-  const { user } = useAuth();
+  const { user, firebaseEnabled } = useAuth();
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   const handleSave = async () => {
     try {
-      if (user) {
-        await addDoc(collection(db, 'users', user.uid, 'rankings'), data);
+      const payload = { data, created_at: new Date().toISOString() };
+      if (user && firebaseEnabled) {
+        await addDoc(collection(db, 'users', user.uid, 'rankings'), payload);
       } else {
         await fetch(`${apiUrl}/history`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(payload)
         });
       }
       alert(t('saved'));
