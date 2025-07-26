@@ -13,9 +13,10 @@ npm run dev
 Run these commands from the `web` directory so that Next.js can read the environment variables located there.
 The `.env.local` file is git-ignored, so copy `web/.env.local.example` to
 `web/.env.local` and replace the `dummy_*` values with your actual Firebase
-credentials before starting the dev server. If any of the Firebase variables are
-missing, the frontend logs a message like `Firebase disabled: missing env vars
-(apiKey, authDomain)`. Use this hint to verify that all keys are loaded
+credentials before starting the dev server. Authentication now relies solely on
+Firebase—an earlier NextAuth setup has been removed. If any Firebase variables
+are missing, the frontend logs a message like `Firebase disabled: missing env
+vars (apiKey, authDomain)`. Use this hint to verify that all keys are loaded
 correctly when troubleshooting login issues.  When this warning persists:
 
 - Confirm that `.env.local` lives in the `web` directory.
