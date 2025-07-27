@@ -23,9 +23,10 @@ ChartJS.register(
 interface Props {
   results: RankingItem[];
   full?: boolean;
+  id?: string;
 }
 
-const CriteriaRadar: FC<Props> = ({ results, full }) => {
+const CriteriaRadar: FC<Props> = ({ results, full, id }) => {
   if (!results || results.length === 0) return null;
   const criteria = Object.keys(results[0].reasons ?? {});
   if (criteria.length === 0) return <p>No criteria data</p>;
@@ -47,7 +48,7 @@ const CriteriaRadar: FC<Props> = ({ results, full }) => {
   const data = { labels: criteria, datasets };
 
   return (
-    <div className={full ? 'max-w-full mx-auto' : 'max-w-md mx-auto'}>
+    <div id={id} className={full ? 'max-w-full mx-auto' : 'max-w-md mx-auto'}>
       <Radar data={data} />
     </div>
   );

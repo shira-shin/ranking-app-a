@@ -30,6 +30,7 @@ export default function ExportButtons({ data }: Props) {
 
   const exportPdf = async () => {
     const jsPDFModule = await import('jspdf');
+    const html2canvas = (await import('html2canvas')).default;
     const doc = new jsPDFModule.jsPDF();
     doc.setFontSize(16);
     doc.text(t('title'), 10, 10);
@@ -53,6 +54,23 @@ export default function ExportButtons({ data }: Props) {
         y = 10;
       }
     });
+    const scoreEl = document.getElementById('score-chart');
+    const radarEl = document.getElementById('criteria-radar');
+    if (scoreEl || radarEl) {
+      doc.addPage();
+      let imgY = 10;
+      if (scoreEl) {
+        const canvas = await html2canvas(scoreEl as HTMLElement);
+        const img = canvas.toDataURL('image/png');
+        doc.addImage(img, 'PNG', 10, imgY, 180, 100);
+        imgY += 110;
+      }
+      if (radarEl) {
+        const canvas = await html2canvas(radarEl as HTMLElement);
+        const img = canvas.toDataURL('image/png');
+        doc.addImage(img, 'PNG', 10, imgY, 180, 100);
+      }
+    }
     doc.save('ranking.pdf');
   };
   return (

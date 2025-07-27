@@ -22,9 +22,10 @@ ChartJS.register(
 
 interface Props {
   results: RankingItem[];
+  id?: string;
 }
 
-const ScoreChart: FC<Props> = ({ results }) => {
+const ScoreChart: FC<Props> = ({ results, id }) => {
   if (!results || results.length === 0) return null;
 
   const data = {
@@ -41,7 +42,7 @@ const ScoreChart: FC<Props> = ({ results }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div id={id} className="max-w-md mx-auto">
       <Radar data={data} />
     </div>
   );

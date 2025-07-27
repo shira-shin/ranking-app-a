@@ -150,12 +150,12 @@ export default function Results() {
             ) : view === 'table' ? (
               <TableView results={results} />
             ) : (
-              <CriteriaRadar results={results} full />
+              <CriteriaRadar results={results} full id="criteria-radar" />
             )}
             {view !== 'analysis' && (
               <div className="mt-6">
                 <h2 className="text-xl font-semibold mb-2">{t('scoreChart')}</h2>
-                <ScoreChart results={results} />
+                <ScoreChart results={results} id="score-chart" />
               </div>
             )}
           </>
