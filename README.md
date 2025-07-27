@@ -10,7 +10,7 @@ cd web
 npm install
 npm run dev
 ```
-Run these commands from the `web` directory so that Next.js can read the environment variables located there.
+Run these commands from the `web` directory so that Next.js can read the environment variables located there. If you keep your Firebase keys in the project root `.env` file instead, the dev server also loads them via `next.config.js`.
 The `.env.local` file is git-ignored, so copy `web/.env.local.example` to
 `web/.env.local` and replace the `dummy_*` values with your actual Firebase
 credentials before starting the dev server. Authentication now relies solely on
