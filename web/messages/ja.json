@@ -33,6 +33,8 @@
   "tableView": "テーブル表示",
   "visualAnalysis": "ビジュアル分析",
   "share": "共有",
+  "shareOnX": "Xでシェア",
+  "copyLink": "リンクをコピー",
   "historyTitle": "履歴",
   "deleteHistory": "削除",
   "login": "Googleでログイン",

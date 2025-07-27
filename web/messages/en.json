@@ -33,6 +33,8 @@
   "tableView": "Table View",
   "visualAnalysis": "Visual Analysis",
   "share": "Share",
+  "shareOnX": "Share on X",
+  "copyLink": "Copy link",
   "historyTitle": "History",
   "deleteHistory": "Delete",
   "login": "Login with Google",

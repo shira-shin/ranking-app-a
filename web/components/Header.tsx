@@ -27,7 +27,10 @@ export default function Header() {
             </button>
           )
         ) : (
-          <span className="text-gray-500" title="Login unavailable">
+          <span
+            className="text-gray-500"
+            title="Firebase not configured. See README for setup."
+          >
             {t('login')}
           </span>
         )}

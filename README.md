@@ -69,6 +69,16 @@ GET    /history        # list all history entries
 DELETE /history/{id}   # remove an entry by its ID
 ```
 
+### Testing
+
+Run the backend tests with `pytest`. The repository includes a `pytest.ini`
+file so that imports resolve automatically. If you prefer not to rely on the
+config file, prefix the command with `PYTHONPATH=.`:
+
+```bash
+PYTHONPATH=. pytest -q
+```
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
