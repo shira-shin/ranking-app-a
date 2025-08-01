@@ -9,7 +9,7 @@ export default function ShareButton({ data }: { data: any }) {
 
   const saveData = async (): Promise<string> => {
     let savedId: string | undefined;
-    if (user) {
+    if (user && db) {
       const docRef = await addDoc(collection(db, 'users', user.uid, 'rankings'), data);
       savedId = docRef.id;
     } else {

@@ -10,7 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     const load = async () => {
-      if (user) {
+      if (user && db) {
         const q = query(collection(db, 'users', user.uid, 'rankings'), limit(3));
         const snap = await getDocs(q);
         setHistory(snap.docs.map((d) => ({ id: d.id, ...d.data() })));

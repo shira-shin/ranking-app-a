@@ -20,9 +20,11 @@ export default function HistoryPage() {
   const loadHistory = async () => {
     try {
       if (user) {
-        const snap = await getDocs(collection(db, 'users', user.uid, 'rankings'));
-        const arr = snap.docs.map((d) => ({ id: d.id, ...d.data() } as any));
-        setItems(arr);
+        if (db) {
+          const snap = await getDocs(collection(db, 'users', user.uid, 'rankings'));
+          const arr = snap.docs.map((d) => ({ id: d.id, ...d.data() } as any));
+          setItems(arr);
+        }
       } else {
         const res = await fetch(`${apiUrl}/history`);
         if (res.ok) {
@@ -37,7 +39,7 @@ export default function HistoryPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      if (user) {
+      if (user && db) {
         await deleteDoc(doc(db, 'users', user.uid, 'rankings', id));
         setItems(items.filter((i) => i.id !== id));
       } else {
