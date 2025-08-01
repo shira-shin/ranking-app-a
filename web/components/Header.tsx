@@ -11,6 +11,9 @@ export default function Header() {
         <span className="font-bold text-xl">Ranking App</span>
       </Link>
       <div className="flex items-center gap-2">
+        <Link href="/timeline">
+          <span className="text-sm underline">{t('timeline')}</span>
+        </Link>
         {firebaseEnabled ? (
           user ? (
           <>

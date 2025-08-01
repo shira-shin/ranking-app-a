@@ -84,10 +84,20 @@ async def rank(request: RankRequest):
 async def save_history(data: Any = Body(...)):
     """Store ranking results on disk."""
     items = _read_history()
+    if isinstance(data, dict):
+        entry_data = data.get("data", data)
+        title = data.get("title")
+        is_public = bool(data.get("is_public"))
+    else:
+        entry_data = data
+        title = None
+        is_public = False
     entry = {
         "id": str(uuid4()),
-        "data": data if not isinstance(data, dict) or "data" not in data else data["data"],
+        "data": entry_data,
         "created_at": datetime.utcnow().isoformat() + "Z",
+        "title": title,
+        "is_public": is_public,
     }
     items.append(entry)
     _write_history(items)

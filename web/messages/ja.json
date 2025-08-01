@@ -39,5 +39,9 @@
   "deleteHistory": "削除",
   "login": "Googleでログイン",
   "logout": "ログアウト",
-  "profile": "プロフィール"
+  "profile": "プロフィール",
+  "enterTitle": "ランキングのタイトルを入力",
+  "makePublic": "このランキングを公開しますか？",
+  "timeline": "みんなのランキング",
+  "timelineTitle": "みんなのランキング"
 }

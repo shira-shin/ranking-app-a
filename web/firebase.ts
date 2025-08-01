@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, type Auth } from 'firebase/auth';
+import { getFirestore, type Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -31,10 +31,10 @@ const missingVars = [
 
 export const firebaseEnabled = missingVars.length === 0;
 
-let app;
-let auth;
-let provider;
-let db;
+let app: FirebaseApp | undefined;
+let auth: Auth | undefined;
+let provider: GoogleAuthProvider | undefined;
+let db: Firestore | undefined;
 
 if (firebaseEnabled) {
   app = initializeApp(firebaseConfig);
