@@ -14,7 +14,7 @@ export default function SaveHistoryButton({ data }: { data: any }) {
       const title = prompt(t('enterTitle')) || '';
       const isPublic = confirm(t('makePublic'));
       const payload = { data, created_at: new Date().toISOString(), title, is_public: isPublic };
-      if (user && firebaseEnabled) {
+      if (user && firebaseEnabled && db) {
         await addDoc(collection(db, 'users', user.uid, 'rankings'), payload);
       } else {
         await fetch(`${apiUrl}/history`, {

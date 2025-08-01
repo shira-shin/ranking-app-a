@@ -9,7 +9,7 @@ export default function Profile() {
 
   useEffect(() => {
     const load = async () => {
-      if (!user) return;
+      if (!user || !db) return;
       const snap = await getDocs(collection(db, 'users', user.uid, 'rankings'));
       setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     };
