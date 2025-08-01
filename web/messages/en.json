@@ -39,5 +39,9 @@
   "deleteHistory": "Delete",
   "login": "Login with Google",
   "logout": "Logout",
-  "profile": "Profile"
+  "profile": "Profile",
+  "enterTitle": "Enter ranking title",
+  "makePublic": "Make this ranking public?",
+  "timeline": "Public Rankings",
+  "timelineTitle": "Public Rankings"
 }
