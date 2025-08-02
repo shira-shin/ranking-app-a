@@ -5,19 +5,8 @@ Next.js + FastAPI + GPT-4o で動く AI ランキングジェネレーター
 ## Development
 
 ### Web (Next.js)
-```
-cd web
-npm install
-npm run dev
-```
-Run these commands from the `web` directory so that Next.js can read the environment variables located there. The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, and `NEXTAUTH_SECRET`). If these variables are missing, the login button will be disabled.
 
-- Confirm that `.env.local` lives in the `web` directory.
-- Ensure there are **no quotes or trailing spaces** around the values.
-- Restart `npm run dev` after editing the file so Next.js reloads the environment.
-- Saving or sharing rankings requires a logged-in user. Without the OAuth values above, those actions will trigger a login prompt and no data will be persisted.
-
-The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
+See [web/README.md](web/README.md) for setup and development instructions. Run all `npm` commands from the `web` directory so dependencies like `next-auth` and `react` are installed locally. Copy `web/.env.local.example` to `web/.env.local` and fill in the Google OAuth values before starting the app.
 
 ### Server (FastAPI)
 ```
