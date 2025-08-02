@@ -43,5 +43,9 @@
   "enterTitle": "Enter ranking title",
   "makePublic": "Make this ranking public?",
   "timeline": "Public Rankings",
-  "timelineTitle": "Public Rankings"
+  "timelineTitle": "Public Rankings",
+  "pleaseLogin": "Please login.",
+  "welcome": "Welcome, {name}",
+  "yourRankings": "Your Rankings",
+  "noHistory": "No history"
 }
