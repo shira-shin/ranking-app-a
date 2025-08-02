@@ -2,11 +2,12 @@ import { useAuth } from '../components/AuthProvider';
 import { useEffect, useState } from 'react';
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, authEnabled } = useAuth();
   const [items, setItems] = useState<any[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
+    if (!user || !authEnabled) return;
     const load = async () => {
       const res = await fetch(`${apiUrl}/history`);
       if (res.ok) {
@@ -14,7 +15,7 @@ export default function Profile() {
       }
     };
     load();
-  }, []);
+  }, [user, authEnabled]);
 
   if (!user) {
     return <p className="p-4">Please login.</p>;
