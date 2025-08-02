@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
+import { useAuth } from './AuthProvider';
 
 export default function ShareButton({ data }: { data: any }) {
   const t = useTranslations();
+  const { user, login, authEnabled } = useAuth();
 
   const saveData = async (): Promise<string> => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -10,11 +12,27 @@ export default function ShareButton({ data }: { data: any }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
+    if (!res.ok) {
+      throw new Error('failed');
+    }
     const saved = await res.json();
     return `${window.location.origin}/results?id=${saved.id}`;
   };
 
+  const requireAuth = async () => {
+    if (!authEnabled) {
+      alert(t('authRequired'));
+      return false;
+    }
+    if (!user) {
+      login();
+      return false;
+    }
+    return true;
+  };
+
   const handleCopy = async () => {
+    if (!(await requireAuth())) return;
     try {
       const url = await saveData();
       await navigator.clipboard.writeText(url);
@@ -25,6 +43,7 @@ export default function ShareButton({ data }: { data: any }) {
   };
 
   const handleTweet = async () => {
+    if (!(await requireAuth())) return;
     try {
       const url = await saveData();
       const intent = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;

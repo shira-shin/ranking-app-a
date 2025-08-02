@@ -43,5 +43,10 @@
   "enterTitle": "ランキングのタイトルを入力",
   "makePublic": "このランキングを公開しますか？",
   "timeline": "みんなのランキング",
-  "timelineTitle": "みんなのランキング"
+  "timelineTitle": "みんなのランキング",
+  "authRequired": "この機能を利用するには認証を有効にしてください。",
+  "pleaseLogin": "ログインしてください。",
+  "welcome": "{name}さん、ようこそ",
+  "yourRankings": "あなたのランキング",
+  "noHistory": "履歴がありません"
 }

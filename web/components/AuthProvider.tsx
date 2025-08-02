@@ -7,6 +7,7 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   authEnabled: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -14,18 +15,20 @@ const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   authEnabled: true,
+  loading: true,
 });
 
 export const useAuth = () => useContext(AuthContext);
 
 function InnerAuthProvider({ children }: { children: ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const authEnabled = !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
   const value: AuthContextType = {
     user: session?.user ?? null,
     login: () => signIn('google'),
     logout: () => signOut(),
     authEnabled,
+    loading: status === 'loading',
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

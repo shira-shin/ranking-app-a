@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../components/AuthProvider'
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, authEnabled } = useAuth();
   const [history, setHistory] = useState<any[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -15,8 +15,8 @@ export default function Home() {
         setHistory(data.slice(0, 3));
       }
     };
-    if (user) load();
-  }, [user]);
+    if (user && authEnabled) load();
+  }, [user, authEnabled]);
 
   return (
     <div className="max-w-[1140px] mx-auto px-4 text-center space-y-20">
@@ -73,7 +73,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold">さあ、あなたの最初のランキングを作りましょう</h2>
         <Link href="/create" className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark text-xl">無料でランングを作成する</Link>
       </section>
-      {user && (
+      {user && authEnabled && (
         <section className="space-y-6">
           <h2 className="text-2xl font-bold">あなたのランキング履歴</h2>
           {history.length === 0 ? (
