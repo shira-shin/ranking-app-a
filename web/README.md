@@ -27,6 +27,8 @@ Start the development server:
 npm run dev
 ```
 
+Restart `npm run dev` after editing `.env.local` so Next.js reloads environment changes.
+
 ## Build
 
 Create a production build:
@@ -35,6 +37,17 @@ Create a production build:
 npm run build
 ```
 
+To run a type check without emitting files:
+
+```bash
+npx tsc --noEmit
+```
+
 ## Environment variables
 
-Copy `.env.local.example` to `.env.local` and fill in the Google OAuth values before running the app. These values must live in the `web` directory and should have no quotes or trailing spaces.
+Copy `.env.local.example` to `.env.local` and fill in the Google OAuth values before running the app.
+
+- The file must live in the `web` directory.
+- Ensure values have no quotes or trailing spaces.
+- Restart `npm run dev` after editing the file so Next.js reloads the environment.
+- Saving or sharing rankings requires a logged-in user. Without these values, those actions will prompt for login and no data will be persisted.
