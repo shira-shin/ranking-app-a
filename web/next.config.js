@@ -20,6 +20,10 @@ const nextConfig = {
       ...(config.resolve.alias || {}),
       'react$': require.resolve('react'),
       'react-dom$': require.resolve('react-dom'),
+      'react/jsx-runtime$': require.resolve('react/jsx-runtime'),
+      'react/jsx-dev-runtime$': require.resolve('react/jsx-dev-runtime'),
+      'react-dom/client$': require.resolve('react-dom/client'),
+      'react-dom/server$': require.resolve('react-dom/server'),
       'next-auth/react$': require.resolve('next-auth/react'),
     };
     return config;
