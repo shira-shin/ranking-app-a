@@ -7,11 +7,18 @@ export default function ShareButton({ data }: { data: any }) {
 
   const saveData = async (): Promise<string> => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (user?.email) {
+      headers['Authorization'] = `Bearer ${user.email}`;
+    }
     const res = await fetch(`${apiUrl}/history`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      headers,
+      body: JSON.stringify({ data, is_public: true }),
     });
+    if (!res.ok) {
+      throw new Error('save failed');
+    }
     const saved = await res.json();
     return `${window.location.origin}/results?id=${saved.id}`;
   };

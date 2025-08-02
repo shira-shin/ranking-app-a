@@ -20,13 +20,18 @@ export default function SaveHistoryButton({ data }: { data: any }) {
       const title = prompt(t('enterTitle')) || '';
       const isPublic = confirm(t('makePublic'));
       const payload = { data, created_at: new Date().toISOString(), title, is_public: isPublic };
-      await fetch(`${apiUrl}/history`, {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (user.email) {
+        headers['Authorization'] = `Bearer ${user.email}`;
+      }
+      const res = await fetch(`${apiUrl}/history`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        throw new Error('save failed');
+      }
       alert(t('saved'));
     } catch (err) {
       alert(t('saveFailed'));
