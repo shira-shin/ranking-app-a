@@ -15,6 +15,7 @@ Run these commands from the `web` directory so that Next.js can read the environ
 - Confirm that `.env.local` lives in the `web` directory.
 - Ensure there are **no quotes or trailing spaces** around the values.
 - Restart `npm run dev` after editing the file so Next.js reloads the environment.
+- Saving or sharing rankings requires a logged-in user. Without the OAuth values above, those actions will trigger a login prompt and no data will be persisted.
 
 The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
 
