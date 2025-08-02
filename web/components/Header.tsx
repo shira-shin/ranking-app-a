@@ -3,7 +3,7 @@ import { useAuth } from './AuthProvider';
 import { useTranslations } from 'next-intl';
 
 export default function Header() {
-  const { user, login, logout, firebaseEnabled } = useAuth();
+  const { user, login, logout } = useAuth();
   const t = useTranslations();
   return (
     <header className="p-4 flex justify-between items-center border-b mb-4">
@@ -14,8 +14,7 @@ export default function Header() {
         <Link href="/timeline">
           <span className="text-sm underline">{t('timeline')}</span>
         </Link>
-        {firebaseEnabled ? (
-          user ? (
+        {user ? (
           <>
             <Link href="/profile">
               <span className="text-sm underline">{t('profile')}</span>
@@ -24,18 +23,10 @@ export default function Header() {
               {t('logout')}
             </button>
           </>
-          ) : (
-            <button onClick={login} className="px-3 py-1 bg-blue-600 text-white rounded">
-              {t('login')}
-            </button>
-          )
         ) : (
-          <span
-            className="text-gray-500"
-            title="Firebase not configured. See README for setup."
-          >
+          <button onClick={login} className="px-3 py-1 bg-blue-600 text-white rounded">
             {t('login')}
-          </span>
+          </button>
         )}
       </div>
     </header>

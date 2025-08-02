@@ -1,48 +1,39 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, provider, firebaseEnabled } from '../firebase';
+import { createContext, useContext, ReactNode } from 'react';
+import { SessionProvider, useSession, signIn, signOut } from 'next-auth/react';
 
 interface AuthContextType {
-  user: User | null;
+  user: any | null;
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  firebaseEnabled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async () => {},
   logout: async () => {},
-  firebaseEnabled,
 });
 
 export const useAuth = () => useContext(AuthContext);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    if (!firebaseEnabled) return;
-    const unsub = onAuthStateChanged(auth!, (u) => setUser(u));
-    return () => unsub();
-  }, []);
-
+function AuthProviderInner({ children }: { children: ReactNode }) {
+  const { data: session } = useSession();
   const login = async () => {
-    if (!firebaseEnabled) {
-      alert('Login is disabled');
-      return;
-    }
-    await signInWithPopup(auth!, provider!);
+    await signIn('google');
   };
-
   const logout = async () => {
-    if (!firebaseEnabled) return;
-    await signOut(auth!);
+    await signOut();
   };
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, firebaseEnabled }}>
+    <AuthContext.Provider value={{ user: session?.user ?? null, login, logout }}>
       {children}
     </AuthContext.Provider>
+  );
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return (
+    <SessionProvider>
+      <AuthProviderInner>{children}</AuthProviderInner>
+    </SessionProvider>
   );
 }
