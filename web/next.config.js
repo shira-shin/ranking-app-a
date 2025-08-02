@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const env = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL,
   NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID:
@@ -14,6 +15,15 @@ const nextConfig = {
     defaultLocale: 'en',
   },
   env,
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      'react$': require.resolve('react'),
+      'react-dom$': require.resolve('react-dom'),
+      'next-auth/react$': require.resolve('next-auth/react'),
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig;
