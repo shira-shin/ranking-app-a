@@ -15,6 +15,7 @@ const nextConfig = {
     locales: ['en', 'ja'],
     defaultLocale: 'en',
   },
+  reactStrictMode: true,
   env,
   webpack: (config) => {
     config.resolve.alias = {
