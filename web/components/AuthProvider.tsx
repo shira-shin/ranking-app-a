@@ -1,48 +1,39 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, provider, firebaseEnabled } from '../firebase';
+import { createContext, useContext, ReactNode } from 'react';
+import { Session } from 'next-auth';
+import { SessionProvider, signIn, signOut, useSession } from 'next-auth/react';
 
 interface AuthContextType {
-  user: User | null;
-  login: () => Promise<void>;
-  logout: () => Promise<void>;
-  firebaseEnabled: boolean;
+  user: Session['user'] | null;
+  login: () => void;
+  logout: () => void;
+  authEnabled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: async () => {},
-  logout: async () => {},
-  firebaseEnabled,
+  login: () => {},
+  logout: () => {},
+  authEnabled: true,
 });
 
 export const useAuth = () => useContext(AuthContext);
 
+function InnerAuthProvider({ children }: { children: ReactNode }) {
+  const { data: session } = useSession();
+  const authEnabled = !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+  const value: AuthContextType = {
+    user: session?.user ?? null,
+    login: () => signIn('google'),
+    logout: () => signOut(),
+    authEnabled,
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    if (!firebaseEnabled) return;
-    const unsub = onAuthStateChanged(auth!, (u) => setUser(u));
-    return () => unsub();
-  }, []);
-
-  const login = async () => {
-    if (!firebaseEnabled) {
-      alert('Login is disabled');
-      return;
-    }
-    await signInWithPopup(auth!, provider!);
-  };
-
-  const logout = async () => {
-    if (!firebaseEnabled) return;
-    await signOut(auth!);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, firebaseEnabled }}>
-      {children}
-    </AuthContext.Provider>
+    <SessionProvider>
+      <InnerAuthProvider>{children}</InnerAuthProvider>
+    </SessionProvider>
   );
 }

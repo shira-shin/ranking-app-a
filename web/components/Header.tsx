@@ -3,7 +3,7 @@ import { useAuth } from './AuthProvider';
 import { useTranslations } from 'next-intl';
 
 export default function Header() {
-  const { user, login, logout, firebaseEnabled } = useAuth();
+  const { user, login, logout, authEnabled } = useAuth();
   const t = useTranslations();
   return (
     <header className="p-4 flex justify-between items-center border-b mb-4">
@@ -14,7 +14,7 @@ export default function Header() {
         <Link href="/timeline">
           <span className="text-sm underline">{t('timeline')}</span>
         </Link>
-        {firebaseEnabled ? (
+        {authEnabled ? (
           user ? (
           <>
             <Link href="/profile">
@@ -32,7 +32,7 @@ export default function Header() {
         ) : (
           <span
             className="text-gray-500"
-            title="Firebase not configured. See README for setup."
+            title="Auth not configured. See README for setup."
           >
             {t('login')}
           </span>
