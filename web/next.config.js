@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
 
 const env = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL,
@@ -17,15 +16,6 @@ const nextConfig = {
   },
   reactStrictMode: true,
   env,
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...(config.resolve.alias || {}),
-      react: path.resolve('./node_modules/react'),
-      'react-dom': path.resolve('./node_modules/react-dom'),
-      'next-auth/react': path.resolve('./node_modules/next-auth/react'),
-    };
-    return config;
-  },
 };
 
 module.exports = nextConfig;

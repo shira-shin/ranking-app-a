@@ -10,7 +10,7 @@ cd web
 npm install
 npm run dev
 ```
-Run these commands from the `web` directory so that Next.js can read the environment variables located there. The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, and `NEXTAUTH_SECRET`). If these variables are missing, the login button will be disabled.
+Run these commands from the `web` directory so that dependencies like `next-auth` and `react` are installed locally. Relying on globally installed packages can cause module resolution or hook errors. The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, and `NEXTAUTH_SECRET`). If these variables are missing, the login button will be disabled.
 
 - Confirm that `.env.local` lives in the `web` directory.
 - Ensure there are **no quotes or trailing spaces** around the values.
