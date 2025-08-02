@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 import { useTranslations } from 'next-intl';
