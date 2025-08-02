@@ -37,6 +37,7 @@
   "copyLink": "リンクをコピー",
   "historyTitle": "履歴",
   "deleteHistory": "削除",
+  "authRequired": "保存するにはログインが必要です",
   "login": "Googleでログイン",
   "logout": "ログアウト",
   "profile": "プロフィール",

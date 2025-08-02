@@ -7,7 +7,12 @@ export default function SaveHistoryButton({ data }: { data: any }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   const handleSave = async () => {
-    if (authEnabled && !user) {
+    if (!authEnabled) {
+      alert(t('authRequired'));
+      return;
+    }
+    if (!user) {
+      alert(t('authRequired'));
       login();
       return;
     }

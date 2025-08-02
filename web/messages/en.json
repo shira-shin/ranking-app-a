@@ -37,6 +37,7 @@
   "copyLink": "Copy link",
   "historyTitle": "History",
   "deleteHistory": "Delete",
+  "authRequired": "Login required to save",
   "login": "Login with Google",
   "logout": "Logout",
   "profile": "Profile",
