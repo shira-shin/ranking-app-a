@@ -5,6 +5,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import CandidateInputs from '../components/CandidateInputs';
 import CriteriaInputs, { Criterion } from '../components/CriteriaInputs';
 import Spinner from '../components/Spinner';
+import { normalizeRankings } from '../utils/normalizeRankings';
 
 export default function Create() {
   const t = useTranslations();
@@ -40,39 +41,22 @@ export default function Create() {
       "Return all candidates as JSON {\"rankings\": [{\"name\":\"\",\"score\":0,\"rank\":0,\"reasons\":{}}]}.",
       "Reasons must be in Japanese."
     ].join(' ');
-    console.log('prompt', prompt);
     try {
       const res = await fetch(`${apiUrl}/rank`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, count: candidates.length })
       });
-      console.log('rank api status', res.status);
       if (!res.ok) {
         throw new Error('status ' + res.status);
       }
       const data = await res.json();
-      console.log('ranking response', data);
-      let resultArray: any = [];
-      if (Array.isArray(data)) {
-        if (data.length === 1 && data[0]?.rankings) {
-          resultArray = data[0].rankings;
-        } else {
-          resultArray = data;
-        }
-      } else if (Array.isArray(data.results)) {
-        resultArray = data.results;
-      } else if (Array.isArray(data.rankings)) {
-        resultArray = data.rankings;
-      } else {
-        resultArray = [data.results ?? data.rankings ?? data];
-      }
+      const resultArray = normalizeRankings(data);
       if (!resultArray || resultArray.length === 0) {
         setError(t('noResults'));
         return;
       }
       if (
-        !Array.isArray(resultArray) ||
         resultArray.some(
           (r) =>
             !r || typeof r.name !== 'string' ||

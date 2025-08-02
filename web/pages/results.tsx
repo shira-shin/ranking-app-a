@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Spinner from '../components/Spinner';
 import { RankingItem } from '../types';
+import { normalizeRankings } from '../utils/normalizeRankings';
 
 export default function Results() {
   const t = useTranslations();
@@ -21,24 +22,8 @@ export default function Results() {
   const [summary, setSummary] = useState('');
   const [view, setView] = useState<'card' | 'table' | 'analysis'>('card');
 
-  const processArray = (data: any) => {
-    let arr: any = [];
-    if (Array.isArray(data)) {
-      if (data.length === 1 && data[0]?.rankings) {
-        arr = data[0].rankings;
-      } else {
-        arr = data;
-      }
-    } else if (Array.isArray(data.results)) {
-      arr = data.results;
-    } else if (Array.isArray(data.rankings)) {
-      arr = data.rankings;
-    } else {
-      arr = [data.results ?? data.rankings ?? data];
-    }
-    const sorted = (arr as RankingItem[]).sort((a, b) =>
-      (a.rank ?? 0) - (b.rank ?? 0)
-    );
+  const setNormalized = (data: any) => {
+    const sorted = normalizeRankings(data);
     setResults(sorted);
     if (sorted.length > 0) {
       setSummary(t('summary', { item: sorted[0].name }));
@@ -64,12 +49,12 @@ export default function Results() {
       const stored = localStorage.getItem('rankingData');
       if (id) {
         fetchById(id).then((arr) => {
-          processArray(arr);
+          setNormalized(arr);
         });
       } else if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          processArray(parsed);
+          setNormalized(parsed);
         } catch (err) {
           console.error('parse error', err);
           setError(t('formatError'));
@@ -84,11 +69,8 @@ export default function Results() {
   }, [t]);
 
   useEffect(() => {
-    if (!loading) {
-      console.log(results);
-      if (results.length > 0) {
-        setSummary(t('summary', { item: results[0].name }));
-      }
+    if (!loading && results.length > 0) {
+      setSummary(t('summary', { item: results[0].name }));
     }
   }, [results, loading, t]);
 

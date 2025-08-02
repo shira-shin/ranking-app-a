@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '../components/AuthProvider';
 
 interface HistoryEntry {
   id: string;
@@ -12,10 +13,15 @@ export default function HistoryPage() {
   const t = useTranslations();
   const [items, setItems] = useState<HistoryEntry[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const { user } = useAuth();
 
   const loadHistory = async () => {
     try {
-      const res = await fetch(`${apiUrl}/history`);
+      const headers: Record<string, string> = {};
+      if (user?.email) {
+        headers['Authorization'] = `Bearer ${user.email}`;
+      }
+      const res = await fetch(`${apiUrl}/history`, { headers });
       if (res.ok) {
         const data = await res.json();
         setItems(data);
@@ -27,7 +33,11 @@ export default function HistoryPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      await fetch(`${apiUrl}/history/${id}`, { method: 'DELETE' });
+      const headers: Record<string, string> = {};
+      if (user?.email) {
+        headers['Authorization'] = `Bearer ${user.email}`;
+      }
+      await fetch(`${apiUrl}/history/${id}`, { method: 'DELETE', headers });
       setItems(items.filter((i) => i.id !== id));
     } catch {
       /* ignore */
@@ -36,7 +46,7 @@ export default function HistoryPage() {
 
   useEffect(() => {
     loadHistory();
-  }, []);
+  }, [user]);
 
   return (
     <div className="max-w-[1140px] mx-auto px-4 space-y-4">
