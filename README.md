@@ -5,7 +5,7 @@ Next.js + FastAPI + GPT-4o で動く AI ランキングジェネレーター
 ## Development
 
 ### Web (Next.js)
-See [web/README.md](web/README.md) for setup and development instructions. Run all `npm` commands from the `web` directory so dependencies like `next-auth` and `react` are installed locally. Copy `web/.env.local.example` to `web/.env.local` and fill in the Google OAuth values before starting the app.
+See [web/README.md](web/README.md) for setup and development instructions. Run all `npm` commands from the `web` directory so dependencies like `next-auth` and `react` are installed locally. Copy `web/.env.local.example` to `web/.env.local` and fill in the Google OAuth values before starting the app. The `web` directory uses TypeScript with a standard `tsconfig.json`; run `npm run build` to compile the project for production or `npx tsc --noEmit` for a type check only.
 
 ### Server (FastAPI)
 ```
