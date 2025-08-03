@@ -35,9 +35,15 @@ function InnerAuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({
+  children,
+  session,
+}: {
+  children: ReactNode;
+  session?: Session | null;
+}) {
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <InnerAuthProvider>{children}</InnerAuthProvider>
     </SessionProvider>
   );
