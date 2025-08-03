@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
 import '../globals.css';
 import { AuthProvider } from '../components/AuthProvider';
+import SessionProviderWrapper from '../app/providers/SessionProviderWrapper';
 import Header from '../components/Header';
 
 export default function MyApp({ Component, pageProps }: AppProps<{ session?: Session | null }>) {
@@ -15,11 +16,13 @@ export default function MyApp({ Component, pageProps }: AppProps<{ session?: Ses
   // See https://next-intl.dev/docs/configuration#time-zone
   const timeZone = process.env.NEXT_PUBLIC_TIME_ZONE || 'UTC';
   return (
-    <AuthProvider session={pageProps.session}>
-      <NextIntlClientProvider locale={locale!} messages={messages} timeZone={timeZone}>
-        <Header />
-        <Component {...pageProps} />
-      </NextIntlClientProvider>
-    </AuthProvider>
+    <SessionProviderWrapper session={pageProps.session}>
+      <AuthProvider>
+        <NextIntlClientProvider locale={locale!} messages={messages} timeZone={timeZone}>
+          <Header />
+          <Component {...pageProps} />
+        </NextIntlClientProvider>
+      </AuthProvider>
+    </SessionProviderWrapper>
   );
 }

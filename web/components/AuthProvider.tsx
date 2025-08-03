@@ -2,7 +2,7 @@
 
 import { createContext, useContext, ReactNode } from 'react';
 import { Session } from 'next-auth';
-import { SessionProvider, signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 interface AuthContextType {
   user: Session['user'] | null;
@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-function InnerAuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
   const authEnabled = !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
   const value: AuthContextType = {
@@ -33,18 +33,4 @@ function InnerAuthProvider({ children }: { children: ReactNode }) {
     loading: status === 'loading',
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function AuthProvider({
-  children,
-  session,
-}: {
-  children: ReactNode;
-  session?: Session | null;
-}) {
-  return (
-    <SessionProvider session={session}>
-      <InnerAuthProvider>{children}</InnerAuthProvider>
-    </SessionProvider>
-  );
 }
