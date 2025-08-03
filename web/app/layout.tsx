@@ -1,3 +1,5 @@
+"use client";
+
 import '../globals.css';
 import SessionProviderWrapper from './providers/SessionProviderWrapper';
 
