@@ -14,6 +14,8 @@ npm run dev
 
 Run these commands from the `web` directory so dependencies like `next-auth` and `react` are installed locally. See [web/README.md](web/README.md) for detailed setup and development instructions, including environment variables and type checking with `npx tsc --noEmit`. Copy `web/.env.local.example` to `web/.env.local` and fill in the Google OAuth values before starting the app.
 
+If `npm run dev` fails with "Module not found" or "Invalid hook call" errors, reinstall dependencies in `web/` and ensure no globally installed copies of `react` or `next-auth` are being used.
+
 ### Server (FastAPI)
 ```
 cd server

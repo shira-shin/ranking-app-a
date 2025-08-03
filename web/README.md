@@ -19,6 +19,17 @@ npm ls react react-dom next-auth
 
 If any of these packages are missing or duplicated, remove `node_modules` and `package-lock.json` and install again.
 
+## Troubleshooting
+
+If the dev server reports "Module not found: Can't resolve 'next-auth/react'" or "Invalid hook call", the local `node_modules`
+directory may be missing or corrupted. Reinstall dependencies in the `web` folder and avoid relying on globally installed
+packages:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
 ## Development
 
 Start the development server:
