@@ -3,8 +3,13 @@ const path = require('path');
 
 const env = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL,
-  NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID:
-    process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID ?? process.env.GOOGLE_OAUTH_CLIENT_ID,
+  // Expose the Google client ID to the browser. Support both the standard
+  // GOOGLE_CLIENT_ID naming and the older GOOGLE_OAUTH_CLIENT_ID names.
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID:
+    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ??
+    process.env.GOOGLE_CLIENT_ID ??
+    process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID ??
+    process.env.GOOGLE_OAUTH_CLIENT_ID,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 };
 

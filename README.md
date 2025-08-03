@@ -12,12 +12,13 @@ npm run dev
 ```
 Run these commands from the `web` directory so that dependencies like `next-auth` and `react` are installed locally.
 Relying on globally installed packages can cause module resolution or hook errors.
-The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, and `NEXTAUTH_SECRET`).
+The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL`).
 If these variables are missing, the login button will be disabled.
 
 - Confirm that `.env.local` lives in the `web` directory.
 - Ensure there are **no quotes or trailing spaces** around the values.
 - Restart `npm run dev` after editing the file so Next.js reloads the environment.
+- Set `NEXTAUTH_URL` to the base URL of your site (e.g. `http://localhost:3000` during development).
 - Saving or sharing rankings requires a logged-in user. Without the OAuth values above, those actions will trigger a login prompt and no data will be persisted.
 
 The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
