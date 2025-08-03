@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
 
 const env = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL,
@@ -16,6 +17,16 @@ const nextConfig = {
   },
   reactStrictMode: true,
   env,
+  webpack: (config) => {
+    // Ensure all packages, including ones hoisted outside this project, use
+    // the same React instance to avoid "Invalid hook call" errors.
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig;
