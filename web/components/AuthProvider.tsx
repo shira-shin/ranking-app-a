@@ -24,7 +24,12 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
-  const authEnabled = !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+  // Expose the client ID to the browser so we can hide the login button
+  // when OAuth isn't configured. Support the old NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID
+  // for backward compatibility.
+  const authEnabled =
+    !!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+    !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
   const value: AuthContextType = {
     user: session?.user ?? null,
     login: () => signIn('google'),
