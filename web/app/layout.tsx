@@ -1,9 +1,8 @@
-"use client";
-
 import '../globals.css';
+import { ReactNode } from 'react';
 import SessionProviderWrapper from './providers/SessionProviderWrapper';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <body>
