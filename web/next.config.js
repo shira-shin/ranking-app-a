@@ -10,7 +10,9 @@ const env = {
     process.env.GOOGLE_CLIENT_ID ??
     process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID ??
     process.env.GOOGLE_OAUTH_CLIENT_ID,
-  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  // Provide a sensible default so NextAuth can run during local development
+  // without requiring the developer to set NEXTAUTH_URL explicitly.
+  NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
 };
 
 Object.keys(env).forEach((key) => env[key] === undefined && delete env[key]);
@@ -32,6 +34,14 @@ const nextConfig = {
       resolveAlias: {
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+        'react/jsx-runtime': path.resolve(
+          __dirname,
+          './node_modules/react/jsx-runtime.js'
+        ),
+        'react/jsx-dev-runtime': path.resolve(
+          __dirname,
+          './node_modules/react/jsx-dev-runtime.js'
+        ),
       },
     },
   },
@@ -42,6 +52,14 @@ const nextConfig = {
       ...(config.resolve.alias || {}),
       react: path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+      'react/jsx-runtime': path.resolve(
+        __dirname,
+        './node_modules/react/jsx-runtime.js'
+      ),
+      'react/jsx-dev-runtime': path.resolve(
+        __dirname,
+        './node_modules/react/jsx-dev-runtime.js'
+      ),
     };
     return config;
   },
