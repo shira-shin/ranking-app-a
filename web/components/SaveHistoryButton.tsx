@@ -13,7 +13,7 @@ export default function SaveHistoryButton({ data }: { data: any }) {
     }
     if (!user) {
       alert(t('authRequired'));
-      login();
+      await login();
       return;
     }
     try {

@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 
 interface AuthContextType {
   user: Session['user'] | null;
-  login: () => void;
+  login: () => Promise<void>;
   logout: () => void;
   authEnabled: boolean;
   loading: boolean;
@@ -14,7 +14,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: () => {},
+  login: async () => {},
   logout: () => {},
   authEnabled: true,
   loading: true,
@@ -24,17 +24,30 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
-  // Expose the client ID to the browser so we can hide the login button
-  // when OAuth isn't configured. Support the old NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID
-  // for backward compatibility.
-  const authEnabled =
-    !!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-    !!process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+
+  const login = async () => {
+    try {
+      const res = await fetch('/api/auth/providers');
+      if (!res.ok) {
+        throw new Error('failed to load providers');
+      }
+      const providers = await res.json();
+      if (!providers.google) {
+        alert('Google auth provider not configured.');
+        return;
+      }
+      await signIn('google');
+    } catch (err) {
+      console.error(err);
+      alert('Authentication is currently unavailable.');
+    }
+  };
+
   const value: AuthContextType = {
     user: session?.user ?? null,
-    login: () => signIn('google'),
+    login,
     logout: () => signOut(),
-    authEnabled,
+    authEnabled: true,
     loading: status === 'loading',
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
