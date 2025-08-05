@@ -25,7 +25,7 @@ export default function ShareButton({ data }: { data: any }) {
 
   const requireAuth = async () => {
     if (authEnabled && !user) {
-      login();
+      await login();
       return false;
     }
     return true;
