@@ -14,12 +14,15 @@ const googleClientId =
   process.env.GOOGLE_CLIENT_ID ??
   process.env.GOOGLE_OAUTH_CLIENT_ID;
 const googleClientSecret =
-  process.env.GOOGLE_CLIENT_SECRET ?? process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+  process.env.GOOGLE_CLIENT_SECRET_NEW ??
+  process.env.GOOGLE_CLIENT_SECRET ??
+  process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+const googleRedirectUri = process.env.GOOGLE_REDIRECT_URI;
 
 // Fail fast if the expected OAuth credentials are not configured.
 if (!googleClientId || !googleClientSecret) {
   throw new Error(
-    'Missing Google OAuth environment variables. Set GOOGLE_CLIENT_ID_NEW and GOOGLE_CLIENT_SECRET.',
+    'Missing Google OAuth environment variables. Set GOOGLE_CLIENT_ID_NEW and GOOGLE_CLIENT_SECRET_NEW.',
   );
 }
 
@@ -28,6 +31,9 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: googleClientId,
       clientSecret: googleClientSecret,
+      ...(googleRedirectUri && {
+        authorization: { params: { redirect_uri: googleRedirectUri } },
+      }),
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET || devSecret,
