@@ -12,7 +12,7 @@ npm run dev
 ```
 Run these commands from the `web` directory so that dependencies like `next-auth` and `react` are installed locally.
 Relying on globally installed packages can cause module resolution or hook errors.
-The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_CLIENT_ID_NEW`, `GOOGLE_CLIENT_SECRET`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL`). For backward compatibility the older `GOOGLE_CLIENT_ID` and legacy `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` variables are also supported.
+The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_CLIENT_ID_NEW`, `GOOGLE_CLIENT_SECRET_NEW`, `GOOGLE_REDIRECT_URI`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL`). For backward compatibility the older `GOOGLE_CLIENT_ID` and legacy `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` variables are also supported.
 If these variables are missing, the login button will be disabled.
 
 - Confirm that `.env.local` lives in the `web` directory.
