@@ -22,6 +22,14 @@ If these variables are missing, the login button will be disabled.
 - Set `GOOGLE_REDIRECT_URI` to the full callback URL (e.g. `http://localhost:3000/api/auth/callback/google`).
 - Saving or sharing rankings requires a logged-in user. Without the OAuth values above, those actions will trigger a login prompt and no data will be persisted.
 
+#### Troubleshooting
+
+If Google OAuth returns an `invalid_client` error:
+
+- **Wrong client ID or secret**: Verify that `GOOGLE_CLIENT_ID_NEW` and `GOOGLE_CLIENT_SECRET_NEW` (or the legacy variables) exactly match the values in the Google Cloud Console. Update the values and restart `npm run dev`.
+- **Redirect URI mismatch**: Ensure `GOOGLE_REDIRECT_URI` matches an Authorized redirect URI in the Google Cloud Console, including protocol and path. Update either `.env.local` or the console settings accordingly and restart the app.
+- **Incorrect OAuth client type**: The credentials must be created as a *Web application*. If another type was used, create new web credentials and update `.env.local`.
+
 The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
 
 ### Server (FastAPI)
