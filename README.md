@@ -30,6 +30,18 @@ If Google OAuth returns an `invalid_client` error:
 - **Redirect URI mismatch**: Ensure `GOOGLE_REDIRECT_URI` matches an Authorized redirect URI in the Google Cloud Console, including protocol and path. Update `.env.local` or the console settings and restart `npm run dev`.
 - **Incorrect OAuth client type**: Use OAuth credentials created as a *Web application*. If a different type was used, create new web credentials and update `.env.local`.
 
+**Quick checklist when debugging Google OAuth:**
+
+- Create credentials of type **Web application** in the Google Cloud Console.
+- Match the `client_id` seen in browser network requests to the value shown in the console.
+- Restart the dev server after editing `.env.local`.
+
+To quickly verify the ID in the browser, you can temporarily log a slice of it:
+
+```js
+console.log("CID(head)", googleClientId.slice(0, 8));
+```
+
 The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
 
 ### Server (FastAPI)
