@@ -27,8 +27,8 @@ If these variables are missing, the login button will be disabled.
 If Google OAuth returns an `invalid_client` error:
 
 - **Wrong client ID or secret**: Verify that `GOOGLE_CLIENT_ID_NEW` and `GOOGLE_CLIENT_SECRET_NEW` (or the legacy variables) exactly match the values in the Google Cloud Console. Update the values and restart `npm run dev`.
-- **Redirect URI mismatch**: Ensure `GOOGLE_REDIRECT_URI` matches an Authorized redirect URI in the Google Cloud Console, including protocol and path. Update either `.env.local` or the console settings accordingly and restart the app.
-- **Incorrect OAuth client type**: The credentials must be created as a *Web application*. If another type was used, create new web credentials and update `.env.local`.
+- **Redirect URI mismatch**: Ensure `GOOGLE_REDIRECT_URI` matches an Authorized redirect URI in the Google Cloud Console, including protocol and path. Update `.env.local` or the console settings and restart `npm run dev`.
+- **Incorrect OAuth client type**: Use OAuth credentials created as a *Web application*. If a different type was used, create new web credentials and update `.env.local`.
 
 The `web` directory uses TypeScript with a standard `tsconfig.json` configured for Next.js. Run `npm run build` to compile the project for production or use `npx tsc --noEmit` to perform a type check only.
 
