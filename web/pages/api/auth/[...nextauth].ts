@@ -1,6 +1,7 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import crypto from 'crypto';
+import { isPlaceholder } from '../../../utils/isPlaceholder';
 
 // Fallback to a generated secret in development so authentication still works
 // when NEXTAUTH_SECRET isn't explicitly configured.
@@ -23,6 +24,14 @@ const googleRedirectUri = process.env.GOOGLE_REDIRECT_URI;
 if (!googleClientId || !googleClientSecret) {
   throw new Error(
     'Missing Google OAuth environment variables. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.',
+  );
+}
+
+// Detect and surface placeholder credentials so developers know to replace
+// them with real values.
+if (isPlaceholder(googleClientId) || isPlaceholder(googleClientSecret)) {
+  throw new Error(
+    'Google OAuth environment variables contain placeholder values. Replace them with real credentials.',
   );
 }
 
