@@ -12,21 +12,21 @@ npm run dev
 ```
 Run these commands from the `web` directory so that dependencies like `next-auth` and `react` are installed locally.
 Relying on globally installed packages can cause module resolution or hook errors.
-The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_CLIENT_ID_NEW`, `GOOGLE_CLIENT_SECRET_NEW`, `GOOGLE_REDIRECT_URI`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL`). For backward compatibility the older `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and the legacy `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` variables are also supported.
+The `.env.local` file is git-ignored, so copy `web/.env.local.example` to `web/.env.local` and replace the placeholder values with your actual Google OAuth credentials (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL`). Optionally set `GOOGLE_REDIRECT_URI` to override the default callback. For backward compatibility the older `GOOGLE_CLIENT_ID_NEW`, `GOOGLE_CLIENT_SECRET_NEW`, and the legacy `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` variables are also supported.
 If these variables are missing, the login button will be disabled.
 
 - Confirm that `.env.local` lives in the `web` directory.
 - Ensure there are **no quotes or trailing spaces** around the values.
 - Restart `npm run dev` after editing the file so Next.js reloads the environment.
 - Set `NEXTAUTH_URL` to the base URL of your site (e.g. `http://localhost:3000` during development).
-- Set `GOOGLE_REDIRECT_URI` to the full callback URL (e.g. `http://localhost:3000/api/auth/callback/google`).
+- The default callback is `http://localhost:3000/api/auth/callback/google`. If you use a different URL, set `GOOGLE_REDIRECT_URI` to the full callback path.
 - Saving or sharing rankings requires a logged-in user. Without the OAuth values above, those actions will trigger a login prompt and no data will be persisted.
 
 #### Troubleshooting
 
 If Google OAuth returns an `invalid_client` error:
 
-- **Wrong client ID or secret**: Verify that `GOOGLE_CLIENT_ID_NEW` and `GOOGLE_CLIENT_SECRET_NEW` (or the legacy variables) exactly match the values in the Google Cloud Console. Update the values and restart `npm run dev`.
+- **Wrong client ID or secret**: Verify that `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (or the fallback variables) exactly match the values in the Google Cloud Console. Update the values and restart `npm run dev`.
 - **Redirect URI mismatch**: Ensure `GOOGLE_REDIRECT_URI` matches an Authorized redirect URI in the Google Cloud Console, including protocol and path. Update `.env.local` or the console settings and restart `npm run dev`.
 - **Incorrect OAuth client type**: Use OAuth credentials created as a *Web application*. If a different type was used, create new web credentials and update `.env.local`.
 
