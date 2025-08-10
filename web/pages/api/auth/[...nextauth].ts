@@ -1,51 +1,31 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import crypto from 'crypto';
+import { env } from '../../../lib/env';
 import { isPlaceholder } from '../../../utils/isPlaceholder';
-
-// Fallback to a generated secret in development so authentication still works
-// when NEXTAUTH_SECRET isn't explicitly configured.
-const devSecret = crypto.randomBytes(32).toString('hex');
-
-// Resolve Google OAuth environment variables and provide clear feedback if
-// they are missing. This helps surface misconfigured `.env` files which would
-// otherwise result in a cryptic "client_id is required" error.
-const googleClientId =
-  process.env.GOOGLE_CLIENT_ID ??
-  process.env.GOOGLE_CLIENT_ID_NEW ??
-  process.env.GOOGLE_OAUTH_CLIENT_ID;
-const googleClientSecret =
-  process.env.GOOGLE_CLIENT_SECRET ??
-  process.env.GOOGLE_CLIENT_SECRET_NEW ??
-  process.env.GOOGLE_OAUTH_CLIENT_SECRET;
-const googleRedirectUri = process.env.GOOGLE_REDIRECT_URI;
-
-// Fail fast if the expected OAuth credentials are not configured.
-if (!googleClientId || !googleClientSecret) {
-  throw new Error(
-    'Missing Google OAuth environment variables. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.',
-  );
-}
 
 // Detect and surface placeholder credentials so developers know to replace
 // them with real values.
-if (isPlaceholder(googleClientId) || isPlaceholder(googleClientSecret)) {
+if (isPlaceholder(env.GOOGLE_CLIENT_ID) || isPlaceholder(env.GOOGLE_CLIENT_SECRET)) {
   throw new Error(
     'Google OAuth environment variables contain placeholder values. Replace them with real credentials.',
   );
 }
 
+// Emit diagnostics in development only
+if (process.env.NODE_ENV !== 'production') {
+  console.log('CID(head):', env.GOOGLE_CLIENT_ID.slice(0, 8));
+  console.log('CSEC(set):', !!env.GOOGLE_CLIENT_SECRET);
+  console.log('NEXTAUTH_URL:', env.NEXTAUTH_URL);
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: googleClientId,
-      clientSecret: googleClientSecret,
-      ...(googleRedirectUri && {
-        authorization: { params: { redirect_uri: googleRedirectUri } },
-      }),
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || devSecret,
+  secret: env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
