@@ -8,7 +8,7 @@ if (!fs.existsSync(envLocal)) {
   }
   fs.copyFileSync(envExample, envLocal);
   console.log('Created .env.local from .env.example');
-  console.log('Fill GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / NEXTAUTH_SECRET.');
+  console.log('自分でClient ID/Secretを入れてください (NEXTAUTH_SECRET も設定)');
 } else {
   console.log('.env.local already exists.');
 }
