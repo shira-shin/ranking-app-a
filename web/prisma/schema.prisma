@@ -16,6 +16,7 @@ model User {
   image     String?
   handle    String?  @unique
   bio       String?  @db.Text
+  defaultCriteria Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
