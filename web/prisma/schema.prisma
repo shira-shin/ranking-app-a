@@ -1,0 +1,89 @@
+// Prisma schema for ranking social features
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id
+  name      String?
+  email     String?  @unique
+  image     String?
+  handle    String?  @unique
+  bio       String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rankings  Ranking[]
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  following Follow[] @relation("following")
+  followers Follow[] @relation("followers")
+}
+
+model Ranking {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  title      String
+  items      Json
+  criteria   Json
+  result     Json?
+  isPublic   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  posts      Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rankingId String
+  ranking   Ranking  @relation(fields: [rankingId], references: [id])
+  caption   String?  @db.Text
+  tags      String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  likes     Like[]
+  comments  Comment[]
+}
+
+model Like {
+  id      String @id @default(cuid())
+  userId  String
+  postId  String
+
+  user    User @relation(fields: [userId], references: [id])
+  post    Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id])
+  post      Post @relation(fields: [postId], references: [id])
+}
+
+model Follow {
+  id          String @id @default(cuid())
+  followerId  String
+  followingId String
+
+  follower    User   @relation("followers", fields: [followerId], references: [id])
+  following   User   @relation("following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+}
