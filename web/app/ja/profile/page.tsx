@@ -33,7 +33,7 @@ export default function ProfilePage(){
         </div>
       </div>
 
-      <CriteriaCard criteria={criteria} onChange={setCriteria} onReorder={()=>{}} />
+      <CriteriaCard criteria={criteria} onChange={setCriteria} />
 
       <div className="text-right">
         <button onClick={save} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl px-6 py-3 shadow-lg">保存</button>
