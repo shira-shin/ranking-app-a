@@ -1,13 +1,20 @@
-import '../globals.css';
-import SessionProviderWrapper from './providers/SessionProviderWrapper';
+import "./globals.css";
+import Providers from "@/components/Providers";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale?: string };
+}) {
+  const locale = params?.locale ?? "ja";
+  const messages = (await import(`../messages/${locale}.json`)).default;
+
   return (
-    <html lang="ja">
+    <html lang={locale}>
       <body>
-        <SessionProviderWrapper>
-          {children}
-        </SessionProviderWrapper>
+        <Providers messages={messages}>{children}</Providers>
       </body>
     </html>
   );
