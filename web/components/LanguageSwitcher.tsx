@@ -1,26 +1,39 @@
-"use client";
+'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useTranslations } from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
+import {usePathname, useRouter} from 'next/navigation';
 
 export default function LanguageSwitcher() {
-  const { locale, locales, pathname, query, asPath } = useRouter();
+  const locale = useLocale();
   const t = useTranslations();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const locales = ['ja', 'en'] as const;
+
+  const switchTo = (target: (typeof locales)[number]) => {
+    const segments = pathname.split('/').filter(Boolean);
+    if (locales.includes(segments[0] as any)) {
+      segments[0] = target;
+    } else {
+      segments.unshift(target);
+    }
+    router.push('/' + segments.join('/'));
+  };
+
   return (
-    <div className="mb-4 flex items-center gap-2">
-      <span className="font-semibold mr-2">{t('language')}:</span>
-      {locales?.map((lng) => (
-        <Link key={lng} href={{ pathname, query }} as={asPath} locale={lng}>
-          <button
-            className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
-            disabled={locale === lng}
-          >
-            {lng}
-          </button>
-        </Link>
+    <div className="flex items-center gap-2">
+      <span className="font-semibold mr-2">{t('language')}</span>
+      {locales.map(l => (
+        <button
+          key={l}
+          onClick={() => switchTo(l)}
+          className={`px-2 py-1 rounded ${l === locale ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+          disabled={l === locale}
+        >
+          {l}
+        </button>
       ))}
     </div>
   );
 }
-
