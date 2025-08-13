@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import ClientLanguageSwitcher from '../components/ClientLanguageSwitcher';
 import CandidateInputs from '../components/CandidateInputs';
 import CriteriaInputs, { Criterion } from '../components/CriteriaInputs';
 import Spinner from '../components/Spinner';
@@ -82,7 +82,7 @@ export default function Create() {
   return (
     <div className="max-w-[1140px] mx-auto px-4">
       <div className="max-w-xl mx-auto mt-10 space-y-6">
-        <LanguageSwitcher />
+        <ClientLanguageSwitcher />
         <h1 className="text-3xl font-bold text-center">{t('generate')}</h1>
         <p className="text-center text-sm text-gray-600">{t('instruction')}</p>
       <div className="text-right">

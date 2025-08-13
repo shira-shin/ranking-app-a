@@ -1,4 +1,4 @@
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import ClientLanguageSwitcher from '../components/ClientLanguageSwitcher';
 import ExportButtons from '../components/ExportButtons';
 import SaveHistoryButton from '../components/SaveHistoryButton';
 import ShareButton from '../components/ShareButton';
@@ -81,7 +81,7 @@ export default function Results() {
   return (
     <div className="max-w-[1140px] mx-auto px-4 text-base">
       <div className="space-y-4">
-        <LanguageSwitcher />
+        <ClientLanguageSwitcher />
       <h1 className="text-3xl font-bold text-center">{t('title')}</h1>
       <div className="text-center">
         <button
