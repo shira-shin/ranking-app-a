@@ -1,9 +1,11 @@
 "use client";
 
 import {useLocale} from 'next-intl';
-import {usePathname, useRouter} from 'next-intl/client';
+import {createSharedPathnamesNavigation} from 'next-intl/navigation';
 
 const LOCALES = ['ja','en'] as const;
+
+const {usePathname, useRouter} = createSharedPathnamesNavigation({locales: LOCALES});
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
