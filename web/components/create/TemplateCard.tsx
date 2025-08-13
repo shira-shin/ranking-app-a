@@ -12,7 +12,7 @@ export default function TemplateCard({ onApply }:{ onApply:(tpl:Criterion[])=>vo
   return (
     <div className="rounded-2xl bg-white border border-slate-200 shadow-md p-4">
       <h3 className="font-bold mb-2">テンプレート</h3>
-      <p className="text-sm text-slate-600">プロフィールに保存したデフォルト評価基準を適用できます。</p>
+      <p className="text-sm text-slate-600">プロフィール保存の「デフォルト評価基準」を適用できます。</p>
       <button disabled={!tpl} onClick={()=>tpl && onApply(tpl)} className="mt-3 rounded-2xl border px-4 py-2">
         {tpl ? 'デフォルト評価基準を読み込む' : 'デフォルト未設定'}
       </button>
