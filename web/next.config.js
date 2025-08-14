@@ -25,6 +25,10 @@ const nextConfig = {
     defaultLocale: 'en',
   },
   reactStrictMode: true,
+  optimizeFonts: false,
+  experimental: {
+    optimizePackageImports: [],
+  },
   env,
   webpack: (config) => {
     // Ensure all packages, including ones hoisted outside this project, use

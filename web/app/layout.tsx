@@ -1,5 +1,6 @@
-import "./globals.css";
-import Providers from "@/components/Providers";
+import './react-preload-shim';
+import './globals.css';
+import Providers from '@/components/Providers';
 
 export default async function RootLayout({
   children,
