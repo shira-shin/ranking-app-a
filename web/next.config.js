@@ -28,7 +28,7 @@ const nextConfig = {
   optimizeFonts: false,
   experimental: {
     instrumentationHook: true,
-    optimizePackageImports: [],
+    optimizePackageImports: [], // 明示的にOFF
   },
   env,
   webpack: (config) => {
