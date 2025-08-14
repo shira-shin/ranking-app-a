@@ -27,6 +27,7 @@ const nextConfig = {
   reactStrictMode: true,
   optimizeFonts: false,
   experimental: {
+    instrumentationHook: true,
     optimizePackageImports: [],
   },
   env,
