@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth';
+﻿import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { env } from '../../../lib/env';
 import { isPlaceholder } from '../../../utils/isPlaceholder';
@@ -29,3 +29,4 @@ export const authOptions: NextAuthOptions = {
 };
 
 export default NextAuth(authOptions);
+

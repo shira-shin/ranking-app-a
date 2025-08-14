@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+﻿import type { NextApiRequest, NextApiResponse } from 'next';
 import { env } from '../../../lib/env';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,3 +13,4 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     redirectUri: 'http://localhost:3000/api/auth/callback/google',
   });
 }
+

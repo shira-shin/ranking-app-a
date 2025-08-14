@@ -1,9 +1,8 @@
+// components/ClientLanguageSwitcher.tsx
 'use client';
 
-import LanguageSwitcher from './LanguageSwitcher';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
-export default function ClientLanguageSwitcher(
-  props: React.ComponentProps<typeof LanguageSwitcher>
-) {
-  return <LanguageSwitcher {...props} />;
+export default function ClientLanguageSwitcher() {
+  return <LanguageSwitcher />;
 }
