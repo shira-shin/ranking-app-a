@@ -27,18 +27,22 @@
     "postcss": "^8.5.4",
     "tailwindcss": "^3.3.5",
     "ts-node": "^10.9.1",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5"
   },
   "engines": {
-    "node": ">=20 <23"
+    "node": ">=22 <23"
   },
   "name": "ranking-web",
   "private": true,
   "scripts": {
-    "setup": "node scripts/ensure-env.mjs",
-    "dev": "npm run setup && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "setup": "node scripts/ensure-env.mjs",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "test": "node --require ts-node/register --test pages/api/auth/*.test.ts",
     "db:push": "prisma db push"
   },

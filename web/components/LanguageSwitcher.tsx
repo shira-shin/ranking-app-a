@@ -1,5 +1,6 @@
-// components/LanguageSwitcher.tsx
 'use client';
+
+// components/LanguageSwitcher.tsx
 
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

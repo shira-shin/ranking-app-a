@@ -7,8 +7,8 @@ export function PostCard({ post }: { post: any }) {
   const [likes, setLikes] = useState(post.likeCount);
 
   async function toggleLike() {
-    setLiked(v => !v);
-    setLikes(n => (liked ? n - 1 : n + 1));
+    setLiked((v: boolean) => !v);
+    setLikes((n: number) => (liked ? n - 1 : n + 1));
     const method = liked ? 'DELETE' : 'POST';
     await fetch(`/api/posts/${post.id}/like`, { method });
   }

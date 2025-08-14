@@ -4,9 +4,10 @@ import { getServerSession } from '@/lib/auth';
 
 export async function GET() {
   const s = await getServerSession();
-  if (!s?.user?.id) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  const userId = (s?.user as any)?.id;
+  if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   const user = await prisma.user.findUnique({
-    where: { id: s.user.id },
+    where: { id: userId },
     select: { name: true, handle: true, image: true, bio: true, defaultCriteria: true },
   });
   return NextResponse.json(user);
@@ -14,10 +15,11 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   const s = await getServerSession();
-  if (!s?.user?.id) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  const userId = (s?.user as any)?.id;
+  if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   const body = await req.json();
   const updated = await prisma.user.update({
-    where: { id: s.user.id },
+    where: { id: userId },
     data: {
       name: body.name ?? undefined,
       handle: body.handle ?? undefined,

@@ -1,5 +1,6 @@
-// components/ClientLanguageSwitcher.tsx
 'use client';
+
+// components/ClientLanguageSwitcher.tsx
 
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 

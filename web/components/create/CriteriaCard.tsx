@@ -61,11 +61,11 @@ export default function CriteriaCard({
                       </select>
                     </div>
                     <div className="md:col-span-2 grid grid-cols-3 gap-2">
-                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.min ?? 1} onChange={e=>patch(c.id,{ scale:{...c.scale, min:Number(e.target.value)} })} placeholder="最小"/>
-                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.max ?? 5} onChange={e=>patch(c.id,{ scale:{...c.scale, max:Number(e.target.value)} })} placeholder="最大"/>
-                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.step ?? 1} onChange={e=>patch(c.id,{ scale:{...c.scale, step:Number(e.target.value)} })} placeholder="刻み"/>
+                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.min ?? 1} onChange={e=>patch(c.id,{ scale:{...c.scale, min:Number(e.target.value)} as any })} placeholder="最小"/>
+                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.max ?? 5} onChange={e=>patch(c.id,{ scale:{...c.scale, max:Number(e.target.value)} as any })} placeholder="最大"/>
+                      <input className="rounded border px-2 py-1" type="number" step="0.1" value={c.scale?.step ?? 1} onChange={e=>patch(c.id,{ scale:{...c.scale, step:Number(e.target.value)} as any })} placeholder="刻み"/>
                     </div>
-                    <input className="md:col-span-2 rounded border px-2 py-1" placeholder="ラベル（カンマ区切り）" value={c.scale?.labels?.join(',') || ''} onChange={e=>patch(c.id,{ scale:{...c.scale, labels:e.target.value.split(',').map(s=>s.trim()).filter(Boolean)} })} />
+                    <input className="md:col-span-2 rounded border px-2 py-1" placeholder="ラベル（カンマ区切り）" value={c.scale?.labels?.join(',') || ''} onChange={e=>patch(c.id,{ scale:{...c.scale, labels:e.target.value.split(',').map(s=>s.trim()).filter(Boolean)} as any })} />
                   </div>
                   <div className="text-right mt-3">
                     <button onClick={()=>remove(c.id)} className="text-rose-500 text-sm">削除</button>
