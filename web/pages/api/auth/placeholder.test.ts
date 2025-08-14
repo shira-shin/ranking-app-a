@@ -1,4 +1,4 @@
-const test = require('node:test');
+﻿const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const { isPlaceholder } = require('../../../utils/isPlaceholder');
@@ -9,3 +9,4 @@ test('isPlaceholder detects placeholder patterns', () => {
   assert.equal(isPlaceholder('actualValue'), false);
   assert.equal(isPlaceholder(undefined), false);
 });
+

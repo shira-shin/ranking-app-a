@@ -1,4 +1,4 @@
-import { useAuth } from '../components/AuthProvider';
+﻿import { useAuth } from '../components/AuthProvider';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -40,3 +40,4 @@ export default function Profile() {
     </div>
   );
 }
+
