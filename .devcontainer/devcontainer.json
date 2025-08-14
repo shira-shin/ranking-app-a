@@ -1,0 +1,6 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "postCreateCommand": "cd web && npm ci",
+  "forwardPorts": [3000]
+}
