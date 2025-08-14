@@ -10,7 +10,7 @@ export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname() ?? '/';
 
-  const switchTo = (target: typeof LOCALES[number]) => {
+  const switchTo = (target: (typeof LOCALES)[number]) => {
     const segs = pathname.split('/').filter(Boolean);
     if (LOCALES.includes(segs[0] as any)) segs[0] = target;
     else segs.unshift(target);
@@ -20,11 +20,7 @@ export default function LanguageSwitcher() {
   return (
     <div className="flex gap-2">
       {LOCALES.map(l => (
-        <button
-          key={l}
-          onClick={() => switchTo(l)}
-          className={`px-2 py-1 rounded ${l===locale ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-        >
+        <button key={l} onClick={() => switchTo(l)} className="px-2 py-1 rounded hover:bg-gray-100">
           {l}
         </button>
       ))}
