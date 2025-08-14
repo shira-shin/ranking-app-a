@@ -7,6 +7,7 @@ export async function GET(req: Request) {
   const cursor = searchParams.get('cursor');
   const take = 20;
   const session = await getServerSession();
+  const userId = (session?.user as any)?.id;
 
   const posts = await prisma.post.findMany({
     where: { ranking: { isPublic: true } },
@@ -14,8 +15,8 @@ export async function GET(req: Request) {
       user: { select: { id: true, name: true, image: true, handle: true } },
       ranking: { select: { id: true, title: true, items: true } },
       _count: { select: { likes: true, comments: true } },
-      likes: session?.user?.id
-        ? { where: { userId: session.user.id }, select: { userId: true } }
+      likes: userId
+        ? { where: { userId }, select: { userId: true } }
         : false,
     },
     orderBy: { createdAt: 'desc' },
@@ -30,7 +31,7 @@ export async function GET(req: Request) {
     nextCursor = next!.id;
   }
 
-  const data = posts.map(p => ({
+  const data = posts.map((p: any) => ({
     id: p.id,
     user: p.user,
     ranking: p.ranking,

@@ -8,11 +8,12 @@ export async function GET(req: Request) {
   const limit = searchParams.get('limit') ?? '6';
   if (me === 'true') {
     const s = await getServerSession();
-    if (!s?.user?.id) {
+    const userId = (s?.user as any)?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
     }
     const rows = await prisma.ranking.findMany({
-      where: { userId: s.user.id },
+      where: { userId },
       orderBy: { createdAt: 'desc' },
       take: Number(limit),
       select: { id: true, title: true, createdAt: true },
@@ -24,9 +25,10 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const s = await getServerSession();
+  const userId = (s?.user as any)?.id;
   const { title, items, criteria, result, isPublic } = await req.json();
   const saved = await prisma.ranking.create({
-    data: { title, items, criteria, result, isPublic: !!isPublic, userId: s?.user?.id ?? null },
+    data: { title, items, criteria, result, isPublic: !!isPublic, userId: userId ?? null },
     select: { id: true }
   });
   return NextResponse.json({ id: saved.id }, { status: 201 });

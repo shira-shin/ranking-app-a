@@ -19,12 +19,13 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession();
-  if (!session?.user?.id) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  const userId = (session?.user as any)?.id;
+  if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   const { body } = (await req.json()) as { body: string };
   if (!body?.trim()) return NextResponse.json({ error: 'invalid' }, { status: 400 });
 
   const created = await prisma.comment.create({
-    data: { userId: session.user.id, postId: params.id, body }
+    data: { userId, postId: params.id, body }
   });
   return NextResponse.json({ id: created.id }, { status: 201 });
 }
