@@ -1,11 +1,12 @@
-import '../globals.css';
 import ClientLanguageSwitcher from '@/components/ClientLanguageSwitcher';
 
-export default function JaLayout({ children }: { children: React.ReactNode }) {
+export default function LocaleLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <ClientLanguageSwitcher />
-      {children}
-    </>
+    <html lang="ja" suppressHydrationWarning>
+      <body className="min-h-screen">
+        <ClientLanguageSwitcher />
+        {children}
+      </body>
+    </html>
   );
 }
