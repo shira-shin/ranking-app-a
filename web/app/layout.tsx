@@ -13,7 +13,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body>
+      <body className="min-h-screen bg-white text-gray-900 antialiased">
         <Providers messages={messages}>{children}</Providers>
       </body>
     </html>
